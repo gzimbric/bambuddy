@@ -162,6 +162,7 @@ Optional but recommended — drop the [`slicer-api/` Compose stack](slicer-api/R
 - External camera support (MJPEG, RTSP, HTTP snapshot, USB/V4L2) with layer-based timelapse
 - **Build plate empty detection** - Auto-pause print if objects detected on plate (multi-reference calibration, ROI adjustment)
 - Fan monitoring and **speed control** for part-cooling, auxiliary, and chamber fans (0–100% with customizable quick-select presets)
+- 🌀 **[This fork] P2S/X2D accessory fan support** — adds the **left auxiliary part cooling fan** (control + monitoring) and presence-aware **exhaust fan** handling. See [Fork additions](#-fork-additions-p2sx2d-accessory-fans) below.
 - Printer control (stop, pause, resume, chamber light, print speed, **airduct mode** for P2S/H2*, **temperature setpoints** for nozzle / bed / **chamber heater** on H2C/H2D/H2DPro/H2S/X2D, **Z-jog / XY-jog / extruder jog**, customizable temperature & fan presets under Settings → Workflow)
 - **Status badges on printer card**: SD Card (green / red), Enclosure Door (green / yellow — X1/P1S/P2S/H2*), Airduct Mode (cooling / heating)
 - **Force Refresh** menu item — request a full status push from the printer without reconnecting
@@ -714,6 +715,65 @@ Full documentation available at **[wiki.bambuddy.cool](http://wiki.bambuddy.cool
 - [Features](http://wiki.bambuddy.cool/features/) — Detailed feature guides
 - [Troubleshooting](http://wiki.bambuddy.cool/reference/troubleshooting/) — Common issues & solutions
 - [API Reference](http://wiki.bambuddy.cool/reference/api/) — REST API documentation
+
+---
+
+## 🌀 Fork additions: P2S/X2D accessory fans
+
+> **This is a fork of [maziggy/bambuddy](https://github.com/maziggy/bambuddy)** with added support for the two optional fans on the Bambu Lab **P2S** and **X2D**. Everything else matches upstream. Proposed upstream in [maziggy/bambuddy#2660](https://github.com/maziggy/bambuddy/issues/2660).
+
+### What this adds
+
+| Fan | Upstream | This fork |
+|---|---|---|
+| **Left auxiliary part cooling fan** | not shown, not controllable | ✅ monitored **and controllable** (0–100%) |
+| **Chamber exhaust fan** | shown on every P2S as "Chamber Fan" | ✅ labelled **"Exhaust"**, shown only when the kit is fitted |
+
+On the **P2S** both fans are add-on kits ([left aux fan](https://us.store.bambulab.com/products/auxiliary-part-cooling-fan-left), [exhaust fan kit](https://us.store.bambulab.com/products/external-exhaust-fan-kit-p2s)); on the **X2D** they ship from the factory. Their badges appear **only when the printer actually reports the fan**, so a base P2S is unaffected.
+
+### How it works
+
+Both fans are detected from the printer's `device.airduct.parts` MQTT report, which lists only the fans that physically exist (decoded id = `raw_id >> 4`, mirroring Bambu Studio's `DevFan::ParseV3_0`). The exhaust kit additionally appears as a `get_version` hardware module (`eef` = "Bambu Lab External Exhaust Fan").
+
+Verified fan → field map on a live P2S (fw `01.02.00.00`), stable across cooling and heating airduct modes:
+
+| Fan | MQTT field | airduct id | Base P2S |
+|---|---|---|---|
+| Part cooling | `cooling_fan_speed` | 1 | built-in |
+| Auxiliary (right; a flap re-tasks it between part-cooling and chamber-filter by mode) | `big_fan1_speed` | 2 | built-in |
+| Exhaust | `big_fan2_speed` | 3 | kit |
+| **Left auxiliary** | *(airduct only — no flat field)* | **10** | kit |
+
+The left aux fan is reported **only** in the airduct and is never mirrored into a flat `big_fanX_speed` field — which is exactly why upstream can't see it. It's driven with `M106 P10`, the same command Bambu's own P2S machine profiles use in their start / layer-change gcode.
+
+### API
+
+The fan-speed endpoint gains an `aux2` option for the left auxiliary fan:
+
+```http
+POST /api/v1/printers/{id}/fan-speed?fan=aux2&speed=50
+```
+
+`fan` accepts `part` | `aux` | `aux2` | `chamber`. Two new fields appear on the printer status payload (and in WebSocket broadcasts / the MQTT relay):
+
+| Field | Meaning |
+|---|---|
+| `left_aux_fan_speed` | `0–100`, or `null` when the fan isn't fitted |
+| `exhaust_fan_present` | `true` when the exhaust fan is reported (airduct part 3) |
+
+### Building this fork
+
+```bash
+git clone -b feature/p2s-x2d-accessory-fans https://github.com/gzimbric/bambuddy.git
+cd bambuddy
+docker build -t bambuddy:p2s-fans .
+```
+
+Then run it exactly as you would upstream Bambuddy (see [Quick Start](#-quick-start)), substituting the `bambuddy:p2s-fans` image.
+
+### Status
+
+Branched from upstream `dev`. Tested against a live P2S with both kits fitted: `ruff` + `pytest` (216 passed), `npx tsc`, `vitest` (66 passed), and i18n parity across all 12 locales all clean. Fan mapping was derived empirically by toggling each fan individually on the printer's touchscreen while capturing MQTT, in both cooling and heating airduct modes.
 
 ---
 
