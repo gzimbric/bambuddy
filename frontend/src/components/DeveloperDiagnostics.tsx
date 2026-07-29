@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Wrench, RefreshCw } from 'lucide-react';
-import { getAuthToken } from '../api/client';
+import { api, getAuthToken } from '../api/client';
 
 /**
  * Developer-mode diagnostics for a printer's camera subsystem.
@@ -41,6 +41,14 @@ function Row({ label, value, warn }: { label: string; value: React.ReactNode; wa
 }
 
 export function DeveloperDiagnostics({ printerId }: { printerId: number }) {
+  // Self-gating: the panel decides its own visibility from the setting rather
+  // than relying on the caller to have a settings query in scope.
+  const { data: uiPrefs } = useQuery({
+    queryKey: ['ui-preferences'],
+    queryFn: api.getUiPreferences,
+  });
+  const enabled = uiPrefs?.developer_mode ?? false;
+
   const { data, isLoading, refetch, isFetching } = useQuery<CameraDiagnostics>({
     queryKey: ['camera-dev-diagnostics', printerId],
     queryFn: async () => {
@@ -52,8 +60,10 @@ export function DeveloperDiagnostics({ printerId }: { printerId: number }) {
       return res.json();
     },
     refetchInterval: 5000,
+    enabled,
   });
 
+  if (!enabled) return null;
   if (isLoading) return <p className="text-xs text-bambu-gray">Loading diagnostics…</p>;
   if (!data) return <p className="text-xs text-amber-400">Diagnostics unavailable</p>;
 
@@ -63,7 +73,7 @@ export function DeveloperDiagnostics({ printerId }: { printerId: number }) {
   const viewers = Object.values(data.upstream.subscribers).reduce((a, b) => a + b, 0);
 
   return (
-    <div className="text-xs space-y-2">
+    <div className="mt-2 p-2 rounded-lg bg-bambu-dark-secondary border border-amber-500/20 text-xs space-y-2">
       <div className="flex items-center justify-between">
         <span className="flex items-center gap-1.5 text-white font-medium">
           <Wrench className="w-3.5 h-3.5 text-bambu-green" /> Camera subsystem

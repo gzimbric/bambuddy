@@ -4216,11 +4216,7 @@ function PrinterCard({
 
             {/* Developer mode: camera-subsystem diagnostics. Expanded view only —
                 it's a debugging aid, not something to crowd the compact card. */}
-            {viewMode === 'expanded' && (settings?.developer_mode ?? false) && (
-              <div className="mt-2 p-2 rounded-lg bg-bambu-dark-secondary border border-amber-500/20">
-                <DeveloperDiagnostics printerId={printer.id} />
-              </div>
-            )}
+            {viewMode === 'expanded' && <DeveloperDiagnostics printerId={printer.id} />}
 
             {viewMode === 'expanded' && showClearPlateButton && (
               <button
