@@ -1064,6 +1064,10 @@ export function SettingsPage() {
       (settings.include_beta_updates ?? false) !== (localSettings.include_beta_updates ?? false) ||
       (settings.developer_mode ?? false) !== (localSettings.developer_mode ?? false) ||
       (settings.camera_transport ?? 'auto') !== (localSettings.camera_transport ?? 'auto') ||
+      (settings.dev_perf_overlay ?? false) !== (localSettings.dev_perf_overlay ?? false) ||
+      (settings.dev_raw_state ?? false) !== (localSettings.dev_raw_state ?? false) ||
+      (settings.dev_query_devtools ?? false) !== (localSettings.dev_query_devtools ?? false) ||
+      (settings.dev_verbose_logging ?? false) !== (localSettings.dev_verbose_logging ?? false) ||
       (settings.local_login_enabled ?? true) !== (localSettings.local_login_enabled ?? true) ||
       settings.notification_language !== localSettings.notification_language ||
       (settings.bed_cooled_threshold ?? 35) !== (localSettings.bed_cooled_threshold ?? 35) ||
@@ -1128,7 +1132,10 @@ export function SettingsPage() {
       (settings.bed_temp_presets ?? '') !== (localSettings.bed_temp_presets ?? '') ||
       (settings.chamber_temp_presets ?? '') !== (localSettings.chamber_temp_presets ?? '') ||
       (settings.fan_speed_presets ?? '') !== (localSettings.fan_speed_presets ?? '') ||
-      (settings.session_max_hours ?? 24) !== (localSettings.session_max_hours ?? 24);
+      (settings.session_max_hours ?? 24) !== (localSettings.session_max_hours ?? 24) ||
+      // Upstream omission, not related to dev mode: this had a control but was
+      // in neither list, so changing it silently reverted on reload.
+      (settings.pipeline_max_copies ?? 50) !== (localSettings.pipeline_max_copies ?? 50);
 
     if (!hasChanges) {
       return;
@@ -1165,6 +1172,10 @@ export function SettingsPage() {
         include_beta_updates: localSettings.include_beta_updates,
         developer_mode: localSettings.developer_mode,
         camera_transport: localSettings.camera_transport,
+        dev_perf_overlay: localSettings.dev_perf_overlay,
+        dev_raw_state: localSettings.dev_raw_state,
+        dev_query_devtools: localSettings.dev_query_devtools,
+        dev_verbose_logging: localSettings.dev_verbose_logging,
         local_login_enabled: localSettings.local_login_enabled,
         notification_language: localSettings.notification_language,
         bed_cooled_threshold: localSettings.bed_cooled_threshold,
@@ -1230,6 +1241,7 @@ export function SettingsPage() {
         chamber_temp_presets: localSettings.chamber_temp_presets,
         fan_speed_presets: localSettings.fan_speed_presets,
         session_max_hours: localSettings.session_max_hours,
+        pipeline_max_copies: localSettings.pipeline_max_copies,
       };
       updateMutation.mutate(settingsToSave);
     }, 500);
