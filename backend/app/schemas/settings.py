@@ -69,6 +69,21 @@ class AppSettings(BaseModel):
     camera_transport: str = Field(
         default="auto", description="Camera transport: auto | mjpeg | mse (developer mode override)"
     )
+    # Each of these is gated behind developer_mode in the UI, but stored
+    # independently so toggling developer mode off and on again doesn't lose
+    # the sub-options someone had configured.
+    dev_perf_overlay: bool = Field(
+        default=False, description="Show the bundle/route-chunk performance overlay (developer mode)"
+    )
+    dev_raw_state: bool = Field(
+        default=False, description="Show the raw printer state / MQTT payload inspector (developer mode)"
+    )
+    dev_query_devtools: bool = Field(
+        default=False, description="Mount the TanStack Query devtools panel (developer mode)"
+    )
+    dev_verbose_logging: bool = Field(
+        default=False, description="Verbose console logging for camera and websocket transports (developer mode)"
+    )
 
     # Language
     language: str = Field(default="en", description="UI language (en, de, fr, ja, it, pt-BR)")
@@ -510,6 +525,10 @@ class AppSettingsUpdate(BaseModel):
     include_beta_updates: bool | None = None
     developer_mode: bool | None = None
     camera_transport: str | None = None
+    dev_perf_overlay: bool | None = None
+    dev_raw_state: bool | None = None
+    dev_query_devtools: bool | None = None
+    dev_verbose_logging: bool | None = None
     local_login_enabled: bool | None = None
     language: str | None = None
     notification_language: str | None = None

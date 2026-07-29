@@ -215,6 +215,41 @@ const STORAGE_FALLBACK_COLORS = [
 const getStorageColor = (key: string, index: number) =>
   STORAGE_CATEGORY_COLORS[key] || STORAGE_FALLBACK_COLORS[index % STORAGE_FALLBACK_COLORS.length];
 
+
+// Developer-mode sub-options. Kept as data rather than repeated JSX so adding
+// another switch is a one-line change and every toggle stays consistent.
+const DEV_SUB_OPTIONS = [
+  {
+    key: 'dev_perf_overlay' as const,
+    labelKey: 'settings.devPerfOverlay',
+    label: 'Bundle & route performance overlay',
+    descKey: 'settings.devPerfOverlayDescription',
+    description:
+      'Floating panel showing which route chunks have loaded, their size, and how long each took to fetch and render.',
+  },
+  {
+    key: 'dev_raw_state' as const,
+    labelKey: 'settings.devRawState',
+    label: 'Raw printer state inspector',
+    descKey: 'settings.devRawStateDescription',
+    description: 'Adds the unparsed MQTT payload for a printer to its diagnostics panel. Useful for reporting bugs.',
+  },
+  {
+    key: 'dev_query_devtools' as const,
+    labelKey: 'settings.devQueryDevtools',
+    label: 'Query cache inspector',
+    descKey: 'settings.devQueryDevtoolsDescription',
+    description: 'Adds a Queries tab to the overlay listing every cached query, its status, and how stale it is.',
+  },
+  {
+    key: 'dev_verbose_logging' as const,
+    labelKey: 'settings.devVerboseLogging',
+    label: 'Verbose transport logging',
+    descKey: 'settings.devVerboseLoggingDescription',
+    description: 'Logs camera and websocket transport events to the browser console. Noisy by design.',
+  },
+];
+
 export function SettingsPage() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -965,6 +1000,11 @@ export function SettingsPage() {
       // re-compare the updated `settings` with current `localSettings` and
       // debounce-save any remaining differences.
       queryClient.invalidateQueries({ queryKey: ['archiveStats'] });
+      // /ui-preferences is a separate query fed by a separate endpoint, so
+      // writing ['settings'] above doesn't refresh it. Components that read it
+      // (the sidebar devmode badge, the diagnostics panel) would otherwise show
+      // the previous value until a full page reload.
+      queryClient.invalidateQueries({ queryKey: ['ui-preferences'] });
       showToast(t('settings.toast.settingsSaved'), 'success');
     },
     onError: (error: Error) => {
@@ -2588,6 +2628,28 @@ export function SettingsPage() {
                       'Auto picks H.264 passthrough where the printer supports it and falls back to MJPEG. Force a transport to A/B them.',
                     )}
                   </p>
+                </div>
+              )}
+
+              {(localSettings.developer_mode ?? false) && (
+                <div className="border-t border-bambu-dark-tertiary pt-3 space-y-3">
+                  {DEV_SUB_OPTIONS.map((opt) => (
+                    <div key={opt.key} className="flex items-center justify-between">
+                      <div className="min-w-0 pr-3">
+                        <p className="text-white text-sm">{t(opt.labelKey, opt.label)}</p>
+                        <p className="text-xs text-bambu-gray">{t(opt.descKey, opt.description)}</p>
+                      </div>
+                      <label className="relative inline-flex items-center cursor-pointer shrink-0">
+                        <input
+                          type="checkbox"
+                          checked={localSettings[opt.key] ?? false}
+                          onChange={(e) => updateSetting(opt.key, e.target.checked)}
+                          className="sr-only peer"
+                        />
+                        <div className="w-11 h-6 bg-bambu-dark-tertiary peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-bambu-green"></div>
+                      </label>
+                    </div>
+                  ))}
                 </div>
               )}
             </CardContent>

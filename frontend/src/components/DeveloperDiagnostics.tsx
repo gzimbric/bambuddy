@@ -48,6 +48,7 @@ export function DeveloperDiagnostics({ printerId }: { printerId: number }) {
     queryFn: api.getUiPreferences,
   });
   const enabled = uiPrefs?.developer_mode ?? false;
+  const showRawState = enabled && (uiPrefs?.dev_raw_state ?? false);
 
   const { data, isLoading, refetch, isFetching } = useQuery<CameraDiagnostics>({
     queryKey: ['camera-dev-diagnostics', printerId],
@@ -61,6 +62,20 @@ export function DeveloperDiagnostics({ printerId }: { printerId: number }) {
     },
     refetchInterval: 5000,
     enabled,
+  });
+
+  const { data: rawState } = useQuery({
+    queryKey: ['printer-raw-state', printerId],
+    queryFn: async () => {
+      const token = getAuthToken();
+      const res = await fetch(`/api/v1/printers/${printerId}/status`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      if (!res.ok) throw new Error(`status failed: ${res.status}`);
+      return res.json();
+    },
+    refetchInterval: 5000,
+    enabled: showRawState,
   });
 
   if (!enabled) return null;
@@ -117,6 +132,27 @@ export function DeveloperDiagnostics({ printerId }: { printerId: number }) {
         )}
         <Row label="ffmpeg PIDs" value={data.ffmpeg.tracked_pids.join(', ') || '—'} />
       </div>
+
+      {/* Raw state inspector — gated behind its own sub-option because the
+          payload is large and only useful when filing a bug. */}
+      {showRawState && (
+        <div className="bg-bambu-dark rounded-lg p-2">
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-bambu-gray">Raw printer state</span>
+            <button
+              onClick={() => {
+                void navigator.clipboard?.writeText(JSON.stringify(rawState ?? {}, null, 2));
+              }}
+              className="text-bambu-green hover:underline"
+            >
+              copy
+            </button>
+          </div>
+          <pre className="max-h-48 overflow-auto text-[10px] leading-tight text-bambu-gray whitespace-pre-wrap break-all">
+            {rawState ? JSON.stringify(rawState, null, 2) : 'unavailable'}
+          </pre>
+        </div>
+      )}
     </div>
   );
 }

@@ -1195,6 +1195,12 @@ export interface AppSettings {
   developer_mode: boolean;
   /** Camera transport override (developer mode): auto | mjpeg | mse */
   camera_transport: string;
+  /** Developer mode sub-options. Persisted independently of developer_mode
+   *  so turning dev mode off and back on preserves the configured set. */
+  dev_perf_overlay: boolean;
+  dev_raw_state: boolean;
+  dev_query_devtools: boolean;
+  dev_verbose_logging: boolean;
   include_beta_updates: boolean;
   // #1589: false hides the local username/password form on the login page;
   // BAMBUDDY_LOCAL_LOGIN=true on the server flips the reported value back to
@@ -4825,8 +4831,10 @@ export const api = {
       bed_temp_presets?: string;
       chamber_temp_presets?: string;
       fan_speed_presets?: string;
-      developer_mode?: boolean;
-      camera_transport?: string;
+      dev_perf_overlay?: boolean;
+      dev_raw_state?: boolean;
+      dev_query_devtools?: boolean;
+      dev_verbose_logging?: boolean;
     }>('/settings/ui-preferences'),
   updateSettings: (data: AppSettingsUpdate) =>
     request<AppSettings>('/settings/', {

@@ -1,5 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 
+// Verbose transport logging, toggled by the developer-mode sub-option. Reads a
+// global because this component is mounted deep in the printer card tree and a
+// context just for a debug flag isn't worth the plumbing.
+const devLog = (...args: unknown[]) => {
+  if ((window as unknown as Record<string, unknown>).__BAMBUDDY_VERBOSE__) {
+    console.debug('[mse]', ...args);
+  }
+};
+
+
 /**
  * H.264 passthrough camera player.
  *

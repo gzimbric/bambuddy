@@ -14,6 +14,7 @@ import { useColorCatalogVersion } from '../hooks/useColorCatalogVersion';
 import { useSponsorPrompt } from '../hooks/useSponsorPrompt';
 import { useUnknownTagPrompt } from '../hooks/useUnknownTagPrompt';
 import { UnknownSpoolModal } from './UnknownSpoolModal';
+import { DevPerfOverlay } from './DevPerfOverlay';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
 import { Card, CardHeader, CardContent } from './Card';
@@ -748,7 +749,7 @@ export function Layout() {
                     className="text-xs font-mono px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30 hover:bg-amber-500/25 transition-colors"
                     title={t('nav.developerModeActive', 'Developer mode is enabled — click to open settings')}
                   >
-                    {t('nav.devMode', '(devmode)')}
+                    {t('nav.devMode', 'devmode')}
                   </button>
                 )}
                 {updateCheck?.update_available && (
@@ -1129,6 +1130,9 @@ export function Layout() {
         </div>
       )}
       <BugReportBubble />
+      {/* Self-gating: renders nothing unless developer mode and one of its
+          overlay sub-options are enabled. */}
+      <DevPerfOverlay />
     </div>
   );
 }
