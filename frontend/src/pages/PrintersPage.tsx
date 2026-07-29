@@ -94,6 +94,7 @@ import { api, discoveryApi, firmwareApi, withStreamToken, ApiError } from '../ap
 import { formatDateOnly, formatETA, formatDuration, parseUTCDate } from '../utils/date';
 import type { Printer, PrinterCreate, PrinterStatus, AMSUnit, DiscoveredPrinter, FirmwareUpdateInfo, FirmwareUploadStatus, LinkedSpoolInfo, SpoolAssignment, HMSError, InventorySpool, SmartPlug, PrinterDiagnosticResult } from '../api/client';
 import { Card, CardContent } from '../components/Card';
+import { DeveloperDiagnostics } from '../components/DeveloperDiagnostics';
 import { Button } from '../components/Button';
 import { ConfirmModal } from '../components/ConfirmModal';
 import { BulkPrinterToolbar, type PrinterState } from '../components/BulkPrinterToolbar';
@@ -4212,6 +4213,14 @@ function PrinterCard({
                 </>
               );
             })()}
+
+            {/* Developer mode: camera-subsystem diagnostics. Expanded view only —
+                it's a debugging aid, not something to crowd the compact card. */}
+            {viewMode === 'expanded' && (settings?.developer_mode ?? false) && (
+              <div className="mt-2 p-2 rounded-lg bg-bambu-dark-secondary border border-amber-500/20">
+                <DeveloperDiagnostics printerId={printer.id} />
+              </div>
+            )}
 
             {viewMode === 'expanded' && showClearPlateButton && (
               <button

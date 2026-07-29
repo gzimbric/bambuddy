@@ -2011,3 +2011,65 @@ async def camera_mse_stream(websocket: WebSocket, printer_id: int, token: str | 
             await websocket.close()
         except Exception:
             pass
+
+
+# =============================================================================
+# Developer-mode diagnostics
+# =============================================================================
+
+
+@router.get("/{printer_id}/camera/dev-diagnostics")
+async def camera_dev_diagnostics(
+    printer_id: int,
+    _: User | None = RequirePermissionIfAuthEnabled(Permission.PRINTERS_READ),
+    db: AsyncSession = Depends(get_db),
+):
+    """Live camera-subsystem state for the developer panel.
+
+    Surfaces the things you otherwise have to SSH in to see: which transports
+    the model supports, whether an upstream is currently dialled, how many
+    viewers share it, and whether the shared JPEG buffer is warm. Read-only.
+    """
+    printer = await get_printer_or_404(printer_id, db)
+    model = printer.model
+
+    active_keys = [k for k in _active_streams if k.startswith(f"{printer_id}-")]
+    chamber_keys = [k for k in _active_chamber_streams if k.startswith(f"{printer_id}-")]
+    buffered = _last_frames.get(printer_id)
+    last_frame_at = max(
+        (t for k, t in _stream_last_frame_times.items() if k.startswith(f"{printer_id}-")),
+        default=None,
+    )
+
+    return {
+        "model": model,
+        "transports": {
+            # Which paths this printer can actually serve.
+            "mjpeg": True,
+            "mse": supports_rtsp(model),
+            "reason": (
+                "H.264 over RTSP on port 322"
+                if supports_rtsp(model)
+                else "chamber-image protocol on port 6000 — no H.264 to pass through"
+            ),
+        },
+        "camera_port": get_camera_port(model),
+        "upstream": {
+            # One upstream per printer: firmware allows a single camera socket.
+            "active_stream_keys": active_keys,
+            "chamber_stream_keys": chamber_keys,
+            "is_active": is_stream_active(printer_id),
+            "subscribers": {k: get_subscriber_count(k) for k in active_keys},
+        },
+        "frame_buffer": {
+            # Snapshots/Obico/plate-detection all read this instead of opening a
+            # competing socket, so an empty buffer during a live stream is a bug.
+            "has_frame": buffered is not None,
+            "frame_bytes": len(buffered) if buffered else 0,
+            "seconds_since_frame": (time.time() - last_frame_at) if last_frame_at else None,
+        },
+        "ffmpeg": {
+            "path": get_ffmpeg_path(),
+            "tracked_pids": sorted(_spawned_ffmpeg_pids),
+        },
+    }

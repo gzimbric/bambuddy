@@ -1,5 +1,62 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Loader2, Plus, Plug, AlertTriangle, RotateCcw, Bell, Download, RefreshCw, ExternalLink, Globe, Droplets, Thermometer, FileText, Edit2, Send, CheckCircle, XCircle, History, Trash2, Zap, TrendingUp, Calendar, DollarSign, Power, PowerOff, Key, Copy, Database, X, Shield, Printer, Cylinder, Wifi, Home, Video, Users, Lock, Unlock, ChevronDown, Save, Mail, Flame, Layers, ListOrdered, Code, Search, Scale, Settings as SettingsIcon, ScanEye, Cog, QrCode, Heart, Briefcase, Workflow, UploadCloud } from 'lucide-react';
+import {
+  AlertTriangle,
+  Bell,
+  Briefcase,
+  Calendar,
+  CheckCircle,
+  ChevronDown,
+  Code,
+  Cog,
+  Copy,
+  Cylinder,
+  Database,
+  DollarSign,
+  Download,
+  Droplets,
+  Edit2,
+  ExternalLink,
+  FileText,
+  Flame,
+  Globe,
+  Heart,
+  History,
+  Home,
+  Key,
+  Layers,
+  ListOrdered,
+  Loader2,
+  Lock,
+  Mail,
+  Plug,
+  Plus,
+  Power,
+  PowerOff,
+  Printer,
+  QrCode,
+  RefreshCw,
+  RotateCcw,
+  Save,
+  Scale,
+  ScanEye,
+  Search,
+  Send,
+  Settings as SettingsIcon,
+  Shield,
+  Thermometer,
+  Trash2,
+  TrendingUp,
+  Unlock,
+  UploadCloud,
+  Users,
+  Video,
+  Wifi,
+  Workflow,
+  Wrench,
+  X,
+  XCircle,
+  Zap,
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { api } from '../api/client';
@@ -965,6 +1022,8 @@ export function SettingsPage() {
       settings.check_updates !== localSettings.check_updates ||
       (settings.check_printer_firmware ?? true) !== (localSettings.check_printer_firmware ?? true) ||
       (settings.include_beta_updates ?? false) !== (localSettings.include_beta_updates ?? false) ||
+      (settings.developer_mode ?? false) !== (localSettings.developer_mode ?? false) ||
+      (settings.camera_transport ?? 'auto') !== (localSettings.camera_transport ?? 'auto') ||
       (settings.local_login_enabled ?? true) !== (localSettings.local_login_enabled ?? true) ||
       settings.notification_language !== localSettings.notification_language ||
       (settings.bed_cooled_threshold ?? 35) !== (localSettings.bed_cooled_threshold ?? 35) ||
@@ -1064,6 +1123,8 @@ export function SettingsPage() {
         check_updates: localSettings.check_updates,
         check_printer_firmware: localSettings.check_printer_firmware,
         include_beta_updates: localSettings.include_beta_updates,
+        developer_mode: localSettings.developer_mode,
+        camera_transport: localSettings.camera_transport,
         local_login_enabled: localSettings.local_login_enabled,
         notification_language: localSettings.notification_language,
         bed_cooled_threshold: localSettings.bed_cooled_threshold,
@@ -2460,6 +2521,78 @@ export function SettingsPage() {
 
         {/* Third Column - Updates & Sidebar Links */}
         <div className="space-y-3 flex-1 lg:max-w-sm">
+          {/* Developer mode. Off by default — these controls surface internal
+              state (stream transports, subsystem diagnostics) that is noise for
+              normal users, and a forced transport is a footgun if left on. */}
+          <Card id="card-developer">
+            <CardHeader>
+              <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                <Wrench className="w-4 h-4 text-bambu-green" />
+                {t('settings.developerMode', 'Developer Mode')}
+              </h2>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="min-w-0 pr-3">
+                  <p className="text-white">{t('settings.developerModeLabel', 'Enable developer mode')}</p>
+                  <p className="text-sm text-bambu-gray">
+                    {t(
+                      'settings.developerModeDescription',
+                      'Adds a diagnostics panel to printer cards and unlocks the stream transport override below. Safe to leave off.',
+                    )}
+                  </p>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer shrink-0">
+                  <input
+                    type="checkbox"
+                    checked={localSettings.developer_mode ?? false}
+                    onChange={(e) => updateSetting('developer_mode', e.target.checked)}
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-bambu-dark-tertiary peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-bambu-green"></div>
+                </label>
+              </div>
+
+              {(localSettings.developer_mode ?? false) && (
+                <div
+                  role="alert"
+                  className="text-xs text-amber-800 dark:text-amber-200 bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700/40 rounded p-2"
+                >
+                  {t(
+                    'settings.developerModeWarning',
+                    'Developer mode exposes experimental and diagnostic controls. Overrides here can degrade streaming, put extra load on your printer, or stop the camera working — they bypass the automatic behaviour that is normally correct. Leave it off unless you are debugging, and mention it when reporting a bug.',
+                  )}
+                </div>
+              )}
+
+              {(localSettings.developer_mode ?? false) && (
+                <div className="border-t border-bambu-dark-tertiary pt-3">
+                  <label className="block text-sm text-bambu-gray mb-1">
+                    {t('settings.cameraTransport', 'Camera transport')}
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={localSettings.camera_transport ?? 'auto'}
+                      onChange={(e) => updateSetting('camera_transport', e.target.value)}
+                      className="w-full px-3 py-2 pr-10 bg-bambu-dark border border-bambu-dark-tertiary rounded-lg text-white focus:border-bambu-green focus:outline-none appearance-none cursor-pointer"
+                    >
+                      <option value="auto">{t('settings.cameraTransportAuto', 'Auto (recommended)')}</option>
+                      <option value="mjpeg">{t('settings.cameraTransportMjpeg', 'Force MJPEG')}</option>
+                      <option value="mse">{t('settings.cameraTransportMse', 'Force H.264 / MSE')}</option>
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-bambu-gray pointer-events-none" />
+                  </div>
+                  <p className="text-xs text-bambu-gray mt-1">
+                    {t(
+                      'settings.cameraTransportDescription',
+                      'Auto picks H.264 passthrough where the printer supports it and falls back to MJPEG. Force a transport to A/B them.',
+                    )}
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
           <Card id="card-updates">
             <CardHeader>
               <h2 className="text-lg font-semibold text-white">{t('settings.updates')}</h2>

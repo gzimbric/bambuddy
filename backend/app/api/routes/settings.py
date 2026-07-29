@@ -91,6 +91,7 @@ async def _build_settings_response(db: AsyncSession, is_api_key: bool = False) -
             "check_updates",
             "check_printer_firmware",
             "include_beta_updates",
+            "developer_mode",
             "virtual_printer_enabled",
             "ftp_retry_enabled",
             "mqtt_enabled",
@@ -348,6 +349,9 @@ async def get_default_sidebar_order(
 _UI_PREFERENCE_FIELDS: tuple[str, ...] = (
     "require_plate_clear",
     "check_printer_firmware",
+    # Both are UI rendering hints and carry no credentials/PII.
+    "developer_mode",
+    "camera_transport",
     "camera_view_mode",
     "time_format",
     "date_format",

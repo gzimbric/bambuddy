@@ -59,6 +59,17 @@ class AppSettings(BaseModel):
     check_printer_firmware: bool = Field(default=True, description="Check for printer firmware updates from Bambu Lab")
     include_beta_updates: bool = Field(default=False, description="Include beta/prerelease versions in update checks")
 
+    # Developer mode — opt-in diagnostics for people hacking on Bambuddy.
+    # Off by default: it surfaces internal state (stream transports, raw MQTT,
+    # health probes) that is noise for normal users and could confuse a support
+    # thread if it were on for everyone.
+    developer_mode: bool = Field(
+        default=False, description="Show developer tools: diagnostics panel, stream transport override, raw state"
+    )
+    camera_transport: str = Field(
+        default="auto", description="Camera transport: auto | mjpeg | mse (developer mode override)"
+    )
+
     # Language
     language: str = Field(default="en", description="UI language (en, de, fr, ja, it, pt-BR)")
     notification_language: str = Field(default="en", description="Language for push notifications (en, de)")
@@ -497,6 +508,8 @@ class AppSettingsUpdate(BaseModel):
     check_updates: bool | None = None
     check_printer_firmware: bool | None = None
     include_beta_updates: bool | None = None
+    developer_mode: bool | None = None
+    camera_transport: str | None = None
     local_login_enabled: bool | None = None
     language: str | None = None
     notification_language: str | None = None

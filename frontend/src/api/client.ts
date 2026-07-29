@@ -1191,6 +1191,10 @@ export interface AppSettings {
   energy_tracking_mode: 'print' | 'total';
   check_updates: boolean;
   check_printer_firmware: boolean;
+  /** Developer mode — opt-in diagnostics/tools. Off by default. */
+  developer_mode: boolean;
+  /** Camera transport override (developer mode): auto | mjpeg | mse */
+  camera_transport: string;
   include_beta_updates: boolean;
   // #1589: false hides the local username/password form on the login page;
   // BAMBUDDY_LOCAL_LOGIN=true on the server flips the reported value back to
@@ -4805,6 +4809,8 @@ export const api = {
     request<{
       require_plate_clear?: boolean;
       check_printer_firmware?: boolean;
+      developer_mode?: boolean;
+      camera_transport?: string;
       camera_view_mode?: 'window' | 'embedded';
       time_format?: 'system' | '12h' | '24h';
       date_format?: string;
@@ -4819,6 +4825,8 @@ export const api = {
       bed_temp_presets?: string;
       chamber_temp_presets?: string;
       fan_speed_presets?: string;
+      developer_mode?: boolean;
+      camera_transport?: string;
     }>('/settings/ui-preferences'),
   updateSettings: (data: AppSettingsUpdate) =>
     request<AppSettings>('/settings/', {

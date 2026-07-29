@@ -114,6 +114,14 @@ export function Layout() {
     staleTime: Infinity,
   });
 
+  // Developer mode is a UI-rendering hint, so read it from /ui-preferences —
+  // that endpoint deliberately avoids requiring settings:read (#1293).
+  const { data: uiPrefs } = useQuery({
+    queryKey: ['ui-preferences'],
+    queryFn: api.getUiPreferences,
+  });
+  const developerMode = uiPrefs?.developer_mode ?? false;
+
   const { data: settings } = useQuery({
     queryKey: ['settings'],
     queryFn: api.getSettings,
@@ -731,6 +739,18 @@ export function Layout() {
               {/* Bottom row: version */}
               <div className="flex items-center justify-center gap-2">
                 <span className="text-sm text-bambu-gray">v{versionInfo?.version || '...'}</span>
+                {/* Persistent reminder that developer mode is on — it changes
+                    behaviour (e.g. a forced camera transport), so it shouldn't
+                    be possible to leave it enabled without noticing. */}
+                {developerMode && (
+                  <button
+                    onClick={() => navigate('/settings#card-developer')}
+                    className="text-xs font-mono px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30 hover:bg-amber-500/25 transition-colors"
+                    title={t('nav.developerModeActive', 'Developer mode is enabled — click to open settings')}
+                  >
+                    {t('nav.devMode', '(devmode)')}
+                  </button>
+                )}
                 {updateCheck?.update_available && (
                   <button
                     onClick={() => navigate('/settings')}
