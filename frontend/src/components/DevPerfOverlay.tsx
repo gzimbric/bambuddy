@@ -158,6 +158,13 @@ export function DevPerfOverlay() {
 
   const totalJs = useMemo(() => chunks.reduce((sum, c) => sum + c.size, 0), [chunks]);
   const cachedCount = useMemo(() => chunks.filter((c) => c.cached).length, [chunks]);
+  // Browsers disagree about Resource Timing for cache hits. Chrome fills in
+  // decodedBodySize (so a cached chunk still reports its real size); Firefox
+  // reports zero for all three size fields and collapses duration to ~0.
+  // Verified on one build, same warm cache: Chrome "4.30 MB / 539ms" where
+  // Firefox gave "— / <1ms". Without a note the panel looks broken rather
+  // than uninstrumented.
+  const timingsUnavailable = chunks.length > 0 && totalJs === 0;
   const sortedChunks = useMemo(() => chunks.slice().sort((a, b) => a.at - b.at), [chunks]);
 
   if (!visible || dismissed) return null;
@@ -223,10 +230,16 @@ export function DevPerfOverlay() {
                     {chunks.length} JS chunks
                     {cachedCount > 0 && <span className="text-bambu-gray/60"> · {cachedCount} cached</span>}
                   </span>
-                  <span className="text-white">{fmtBytes(totalJs)}</span>
+                  <span className="text-white">{timingsUnavailable ? 'sizes n/a' : fmtBytes(totalJs)}</span>
                 </div>
                 {chunks.length === 0 && <p className="text-bambu-gray">No script timings recorded.</p>}
-                {cachedCount > 0 && (
+                {timingsUnavailable && (
+                  <p className="text-amber-300/80 font-sans pb-1 leading-snug">
+                    This browser doesn't report Resource Timing sizes for cached responses, so sizes and
+                    durations read as blank. Hard-reload (⇧⌘R) for real numbers, or check in Chrome.
+                  </p>
+                )}
+                {!timingsUnavailable && cachedCount > 0 && (
                   <p className="text-bambu-gray/50 font-sans pb-1">* served from cache (decoded size)</p>
                 )}
                 {sortedChunks.map((c) => (
