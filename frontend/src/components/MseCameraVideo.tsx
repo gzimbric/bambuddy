@@ -125,8 +125,10 @@ export function MseCameraVideo({
         sourceBuffer = mediaSource.addSourceBuffer(MIME);
         sourceBuffer.mode = 'segments';
         sourceBuffer.addEventListener('updateend', onUpdateEnd);
+        devLog('source buffer open', MIME);
       } catch {
         setFailed(true);
+        devLog('addSourceBuffer failed — falling back to MJPEG');
         onUnsupported?.('addSourceBuffer failed');
         return;
       }
@@ -138,12 +140,15 @@ export function MseCameraVideo({
 
       ws.onmessage = (ev) => {
         if (disposed) return;
-        pending.push(ev.data as ArrayBuffer);
+        const buf = ev.data as ArrayBuffer;
+        devLog('fragment', buf.byteLength, 'bytes · queue', pending.length);
+        pending.push(buf);
         pump();
       };
       ws.onerror = () => {
         if (disposed) return;
         setFailed(true);
+        devLog('websocket error');
         onUnsupported?.('websocket error');
       };
       ws.onclose = (ev) => {
@@ -157,6 +162,7 @@ export function MseCameraVideo({
               ? 'unauthorised'
               : 'stream closed';
         setFailed(true);
+        devLog('websocket closed', ev.code, reason);
         onUnsupported?.(reason);
       };
     });
