@@ -60,6 +60,8 @@ export function MseCameraVideo({
 }: MseCameraVideoProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [failed, setFailed] = useState(false);
+  // Bumping this remounts the whole MSE pipeline after a stall.
+  const [reconnectNonce, setReconnectNonce] = useState(0);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -78,6 +80,25 @@ export function MseCameraVideo({
     let sourceBuffer: SourceBuffer | null = null;
     let disposed = false;
     const pending: ArrayBuffer[] = [];
+
+    // Stall watchdog.
+    //
+    // The socket staying open is not evidence that video is arriving. The
+    // printer allows one camera connection, so when another client (Bambu
+    // Studio, Handy, another Bambuddy) takes or releases the camera, the
+    // upstream RTSP session can die without our WebSocket ever closing. No
+    // error fires, no fragments arrive, and MSE simply holds the last decoded
+    // frame — the picture freezes with nothing to indicate why.
+    //
+    // Server-side recovery exists but is slow for a watched stream: the
+    // janitor runs on a 60s timer and only reaps after 30s without frames, so
+    // a viewer can stare at a frozen image for well over a minute. Watching
+    // for fragment arrival here catches it in seconds.
+    let lastFragmentAt = Date.now();
+    let stallTimer: number | null = null;
+    let reconnects = 0;
+    const STALL_MS = 8000;
+    const MAX_RECONNECTS = 2;
 
     const mediaSource = new MediaSource();
     video.src = URL.createObjectURL(mediaSource);
@@ -140,11 +161,43 @@ export function MseCameraVideo({
 
       ws.onmessage = (ev) => {
         if (disposed) return;
+        lastFragmentAt = Date.now();
         const buf = ev.data as ArrayBuffer;
         devLog('fragment', buf.byteLength, 'bytes · queue', pending.length);
         pending.push(buf);
         pump();
       };
+
+      // Poll rather than reset a timer per fragment — one interval is cheaper
+      // than thousands of clearTimeout/setTimeout pairs at 15fps.
+      if (stallTimer === null) {
+        stallTimer = window.setInterval(() => {
+          if (disposed) return;
+          const idle = Date.now() - lastFragmentAt;
+          if (idle < STALL_MS) return;
+
+          if (reconnects >= MAX_RECONNECTS) {
+            devLog('stalled', idle, 'ms and out of retries — falling back');
+            if (stallTimer !== null) window.clearInterval(stallTimer);
+            stallTimer = null;
+            setFailed(true);
+            onUnsupported?.('stream stalled');
+            return;
+          }
+
+          // Closing the socket drops our subscriber count, which lets the
+          // server tear the dead upstream down instead of fanning it out to a
+          // reconnecting client. The remount then dials a fresh one.
+          reconnects += 1;
+          devLog('stalled', idle, 'ms — reconnecting', reconnects, 'of', MAX_RECONNECTS);
+          lastFragmentAt = Date.now();
+          try {
+            ws?.close(4000, 'stalled');
+          } catch {
+            /* already closing */
+          }
+        }, 2000);
+      }
       ws.onerror = () => {
         if (disposed) return;
         setFailed(true);
@@ -153,6 +206,14 @@ export function MseCameraVideo({
       };
       ws.onclose = (ev) => {
         if (disposed) return;
+        // 4000 is our own stall close. Re-dialling means a full remount of this
+        // effect, which rebuilds the MediaSource — the existing buffer holds
+        // fragments from a stream that no longer exists.
+        if (ev.code === 4000) {
+          devLog('reconnecting after stall');
+          setReconnectNonce((n) => n + 1);
+          return;
+        }
         // 4415 = printer has no H.264 (chamber-image model) → MJPEG is correct.
         // 4401 = auth; anything else = upstream ended. Fall back either way.
         const reason =
@@ -169,6 +230,10 @@ export function MseCameraVideo({
 
     return () => {
       disposed = true;
+      if (stallTimer !== null) {
+        window.clearInterval(stallTimer);
+        stallTimer = null;
+      }
       try { ws?.close(); } catch { /* already closed */ }
       try {
         if (sourceBuffer) sourceBuffer.removeEventListener('updateend', onUpdateEnd);
@@ -180,7 +245,9 @@ export function MseCameraVideo({
     };
     // token/printerId changes rebuild the socket; callbacks are refs in practice.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [printerId, token]);
+    // reconnectNonce is a deliberate dependency: bumping it tears down and
+    // rebuilds the MediaSource after a stall.
+  }, [printerId, token, reconnectNonce]);
 
   if (failed) return null;
 

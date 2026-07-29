@@ -5986,7 +5986,11 @@ def stop_spoolbuddy_watchdog():
 
 # Camera stream orphan cleanup
 _camera_cleanup_task: asyncio.Task | None = None
-CAMERA_CLEANUP_INTERVAL = 60
+# 60s was fine when this only reaped orphans, but it also recovers stalled
+# streams — and a viewer watching a frozen picture waits the full interval on
+# top of the staleness window. 15s keeps worst-case recovery under ~35s for a
+# watched stream; the scan itself is a cheap /proc walk.
+CAMERA_CLEANUP_INTERVAL = 15
 
 
 async def _camera_cleanup_loop():

@@ -1677,7 +1677,16 @@ async def cleanup_orphaned_streams():
         spawn_time = _spawned_ffmpeg_pids.get(proc.pid, now)
         if stream_last_frame is None:
             stream_last_frame = spawn_time
-        if now - spawn_time > 60 and now - stream_last_frame > 30:
+        # A watched stream gets much tighter limits than an idle one. The
+        # generous windows exist so a slow-starting upstream isn't reaped
+        # before it delivers its first keyframe — but once frames have been
+        # flowing to a live viewer, 30s of silence is already a frozen picture.
+        # The single-camera-connection constraint means this happens routinely:
+        # another client (Bambu Studio, Handy) taking or releasing the camera
+        # can kill our RTSP session without closing anything.
+        watched = get_subscriber_count(sid) > 0
+        min_age, stale_after = (20, 10) if watched else (60, 30)
+        if now - spawn_time > min_age and now - stream_last_frame > stale_after:
             logger.info("Killing stale ffmpeg stream %s (no frames for %.0fs)", sid, now - stream_last_frame)
             # Signal the generator to stop reconnecting
             event = _disconnect_events.get(sid)
