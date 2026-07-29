@@ -8,6 +8,17 @@ import type { Connect } from 'vite'
 const backendPort = process.env.BACKEND_PORT || '8000'
 const backendUrl = `http://localhost:${backendPort}`
 
+// Public hostname when the dev server is reached through a reverse proxy or
+// tunnel (e.g. DEV_PUBLIC_HOST=bambuddy-dev.example.com). Two things break
+// without it:
+//   - Vite rejects requests whose Host header it doesn't recognise, so the
+//     proxied request returns "Blocked request. This host is not allowed."
+//   - The HMR client derives its websocket URL from the page, and would dial
+//     ws://<host>:5173 — a port the tunnel doesn't publish. Proxies terminate
+//     TLS on 443, so the client has to be told wss + clientPort 443.
+// Unset (the normal LAN/localhost case) leaves Vite's defaults untouched.
+const devPublicHost = process.env.DEV_PUBLIC_HOST
+
 // Absolute path to the gcode_viewer directory at the repo root
 const gcodeViewerDir = path.resolve(__dirname, '../gcode_viewer')
 
@@ -91,6 +102,12 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0',
+    ...(devPublicHost
+      ? {
+          allowedHosts: [devPublicHost],
+          hmr: { protocol: 'wss', host: devPublicHost, clientPort: 443 },
+        }
+      : {}),
     proxy: {
       '/api/v1/ws': {
         target: backendUrl,
