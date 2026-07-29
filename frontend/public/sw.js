@@ -1,6 +1,6 @@
 // Bambuddy Service Worker
-const CACHE_NAME = 'bambuddy-v30';
-const STATIC_CACHE = 'bambuddy-static-v29';
+const CACHE_NAME = 'bambuddy-v31';
+const STATIC_CACHE = 'bambuddy-static-v30';
 
 // Static assets to cache on install
 const STATIC_ASSETS = [
@@ -154,8 +154,23 @@ self.addEventListener('fetch', (event) => {
           }
           return response;
         })
-        .catch(() => {
-          return caches.match(request);
+        .catch(async () => {
+          // A cache miss here resolves to undefined, and respondWith(undefined)
+          // throws — which turned one flaky fetch into a permanently broken
+          // asset. With route-level code splitting that means a dead nav link:
+          // the URL changes, the chunk never arrives, and React Router's
+          // transition keeps the old page on screen forever.
+          //
+          // Retry once (tunnels and flaky wifi usually recover), fall back to
+          // cache, and only then fail loudly with a real Response so the
+          // import() rejects and the app's retry logic can act on it.
+          const cached = await caches.match(request);
+          if (cached) return cached;
+          try {
+            return await fetch(request, { cache: 'reload' });
+          } catch {
+            return new Response('', { status: 504, statusText: 'Asset unavailable offline' });
+          }
         })
     );
     return;

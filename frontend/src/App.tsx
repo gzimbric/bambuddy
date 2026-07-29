@@ -1,5 +1,6 @@
-import { Component, Suspense, lazy, type ReactNode, type ErrorInfo } from 'react';
+import { Component, Suspense, type ReactNode, type ErrorInfo } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { lazyWithRetry } from './utils/lazyWithRetry';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Layout } from './components/Layout';
 
@@ -53,33 +54,33 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
 // bundle, so a first visit downloaded the whole app — including three.js
 // (gcode viewer only) and recharts (stats only) — before rendering anything.
 // Lazy imports let Vite emit a chunk per route and fetch it on navigation.
-const ArchivesPage = lazy(() => import('./pages/ArchivesPage').then((m) => ({ default: m.ArchivesPage })));
-const CamWallPage = lazy(() => import('./pages/CamWallPage').then((m) => ({ default: m.CamWallPage })));
-const CameraPage = lazy(() => import('./pages/CameraPage').then((m) => ({ default: m.CameraPage })));
-const ExternalLinkPage = lazy(() => import('./pages/ExternalLinkPage').then((m) => ({ default: m.ExternalLinkPage })));
-const FileManagerPage = lazy(() => import('./pages/FileManagerPage').then((m) => ({ default: m.FileManagerPage })));
-const GCodeViewerPage = lazy(() => import('./pages/GCodeViewerPage').then((m) => ({ default: m.GCodeViewerPage })));
-const GroupEditPage = lazy(() => import('./pages/GroupEditPage').then((m) => ({ default: m.GroupEditPage })));
-const InventoryPage = lazy(() => import('./pages/InventoryPage'));
-const LibraryTrashPage = lazy(() => import('./pages/LibraryTrashPage').then((m) => ({ default: m.LibraryTrashPage })));
-const MaintenancePage = lazy(() => import('./pages/MaintenancePage').then((m) => ({ default: m.MaintenancePage })));
-const MakerworldPage = lazy(() => import('./pages/MakerworldPage').then((m) => ({ default: m.MakerworldPage })));
-const NotificationsPage = lazy(() => import('./pages/NotificationsPage').then((m) => ({ default: m.NotificationsPage })));
-const PrintersPage = lazy(() => import('./pages/PrintersPage').then((m) => ({ default: m.PrintersPage })));
-const ProfilesPage = lazy(() => import('./pages/ProfilesPage').then((m) => ({ default: m.ProfilesPage })));
-const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage').then((m) => ({ default: m.ProjectDetailPage })));
-const ProjectsPage = lazy(() => import('./pages/ProjectsPage').then((m) => ({ default: m.ProjectsPage })));
-const QueuePage = lazy(() => import('./pages/QueuePage').then((m) => ({ default: m.QueuePage })));
-const SettingsPage = lazy(() => import('./pages/SettingsPage').then((m) => ({ default: m.SettingsPage })));
-const SpoolBuddyAmsPage = lazy(() => import('./pages/spoolbuddy/SpoolBuddyAmsPage').then((m) => ({ default: m.SpoolBuddyAmsPage })));
-const SpoolBuddyCalibrationPage = lazy(() => import('./pages/spoolbuddy/SpoolBuddyCalibrationPage').then((m) => ({ default: m.SpoolBuddyCalibrationPage })));
-const SpoolBuddyDashboard = lazy(() => import('./pages/spoolbuddy/SpoolBuddyDashboard').then((m) => ({ default: m.SpoolBuddyDashboard })));
-const SpoolBuddyInventoryPage = lazy(() => import('./pages/spoolbuddy/SpoolBuddyInventoryPage').then((m) => ({ default: m.SpoolBuddyInventoryPage })));
-const SpoolBuddySettingsPage = lazy(() => import('./pages/spoolbuddy/SpoolBuddySettingsPage').then((m) => ({ default: m.SpoolBuddySettingsPage })));
-const SpoolBuddyWriteTagPage = lazy(() => import('./pages/spoolbuddy/SpoolBuddyWriteTagPage').then((m) => ({ default: m.SpoolBuddyWriteTagPage })));
-const StatsPage = lazy(() => import('./pages/StatsPage').then((m) => ({ default: m.StatsPage })));
-const StreamOverlayPage = lazy(() => import('./pages/StreamOverlayPage').then((m) => ({ default: m.StreamOverlayPage })));
-const SystemInfoPage = lazy(() => import('./pages/SystemInfoPage').then((m) => ({ default: m.SystemInfoPage })));
+const ArchivesPage = lazyWithRetry(() => import('./pages/ArchivesPage').then((m) => ({ default: m.ArchivesPage })), 'ArchivesPage');
+const CamWallPage = lazyWithRetry(() => import('./pages/CamWallPage').then((m) => ({ default: m.CamWallPage })), 'CamWallPage');
+const CameraPage = lazyWithRetry(() => import('./pages/CameraPage').then((m) => ({ default: m.CameraPage })), 'CameraPage');
+const ExternalLinkPage = lazyWithRetry(() => import('./pages/ExternalLinkPage').then((m) => ({ default: m.ExternalLinkPage })), 'ExternalLinkPage');
+const FileManagerPage = lazyWithRetry(() => import('./pages/FileManagerPage').then((m) => ({ default: m.FileManagerPage })), 'FileManagerPage');
+const GCodeViewerPage = lazyWithRetry(() => import('./pages/GCodeViewerPage').then((m) => ({ default: m.GCodeViewerPage })), 'GCodeViewerPage');
+const GroupEditPage = lazyWithRetry(() => import('./pages/GroupEditPage').then((m) => ({ default: m.GroupEditPage })), 'GroupEditPage');
+const InventoryPage = lazyWithRetry(() => import('./pages/InventoryPage'), 'InventoryPage');
+const LibraryTrashPage = lazyWithRetry(() => import('./pages/LibraryTrashPage').then((m) => ({ default: m.LibraryTrashPage })), 'LibraryTrashPage');
+const MaintenancePage = lazyWithRetry(() => import('./pages/MaintenancePage').then((m) => ({ default: m.MaintenancePage })), 'MaintenancePage');
+const MakerworldPage = lazyWithRetry(() => import('./pages/MakerworldPage').then((m) => ({ default: m.MakerworldPage })), 'MakerworldPage');
+const NotificationsPage = lazyWithRetry(() => import('./pages/NotificationsPage').then((m) => ({ default: m.NotificationsPage })), 'NotificationsPage');
+const PrintersPage = lazyWithRetry(() => import('./pages/PrintersPage').then((m) => ({ default: m.PrintersPage })), 'PrintersPage');
+const ProfilesPage = lazyWithRetry(() => import('./pages/ProfilesPage').then((m) => ({ default: m.ProfilesPage })), 'ProfilesPage');
+const ProjectDetailPage = lazyWithRetry(() => import('./pages/ProjectDetailPage').then((m) => ({ default: m.ProjectDetailPage })), 'ProjectDetailPage');
+const ProjectsPage = lazyWithRetry(() => import('./pages/ProjectsPage').then((m) => ({ default: m.ProjectsPage })), 'ProjectsPage');
+const QueuePage = lazyWithRetry(() => import('./pages/QueuePage').then((m) => ({ default: m.QueuePage })), 'QueuePage');
+const SettingsPage = lazyWithRetry(() => import('./pages/SettingsPage').then((m) => ({ default: m.SettingsPage })), 'SettingsPage');
+const SpoolBuddyAmsPage = lazyWithRetry(() => import('./pages/spoolbuddy/SpoolBuddyAmsPage').then((m) => ({ default: m.SpoolBuddyAmsPage })), 'SpoolBuddyAmsPage');
+const SpoolBuddyCalibrationPage = lazyWithRetry(() => import('./pages/spoolbuddy/SpoolBuddyCalibrationPage').then((m) => ({ default: m.SpoolBuddyCalibrationPage })), 'SpoolBuddyCalibrationPage');
+const SpoolBuddyDashboard = lazyWithRetry(() => import('./pages/spoolbuddy/SpoolBuddyDashboard').then((m) => ({ default: m.SpoolBuddyDashboard })), 'SpoolBuddyDashboard');
+const SpoolBuddyInventoryPage = lazyWithRetry(() => import('./pages/spoolbuddy/SpoolBuddyInventoryPage').then((m) => ({ default: m.SpoolBuddyInventoryPage })), 'SpoolBuddyInventoryPage');
+const SpoolBuddySettingsPage = lazyWithRetry(() => import('./pages/spoolbuddy/SpoolBuddySettingsPage').then((m) => ({ default: m.SpoolBuddySettingsPage })), 'SpoolBuddySettingsPage');
+const SpoolBuddyWriteTagPage = lazyWithRetry(() => import('./pages/spoolbuddy/SpoolBuddyWriteTagPage').then((m) => ({ default: m.SpoolBuddyWriteTagPage })), 'SpoolBuddyWriteTagPage');
+const StatsPage = lazyWithRetry(() => import('./pages/StatsPage').then((m) => ({ default: m.StatsPage })), 'StatsPage');
+const StreamOverlayPage = lazyWithRetry(() => import('./pages/StreamOverlayPage').then((m) => ({ default: m.StreamOverlayPage })), 'StreamOverlayPage');
+const SystemInfoPage = lazyWithRetry(() => import('./pages/SystemInfoPage').then((m) => ({ default: m.SystemInfoPage })), 'SystemInfoPage');
 
 const queryClient = new QueryClient({
   defaultOptions: {
