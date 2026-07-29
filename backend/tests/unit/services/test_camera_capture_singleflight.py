@@ -105,3 +105,60 @@ class TestCaptureSingleFlight:
             await camera_service.capture_camera_frame_bytes("10.0.2.43", "c", "P2S")
 
         assert "10.0.2.43" not in camera_service._inflight_captures
+
+    @pytest.mark.asyncio
+    async def test_follower_survives_leader_cancellation(self):
+        """A cancelled leader must not kill the capture for everyone else.
+
+        Snapshot requests get cancelled routinely when a client navigates away
+        mid-capture. ``asyncio.shield`` keeps the underlying capture alive so a
+        follower still waiting gets its frame instead of inheriting the
+        cancellation.
+        """
+        calls = 0
+
+        async def slow(*_args, **_kwargs):
+            nonlocal calls
+            calls += 1
+            await asyncio.sleep(0.05)
+            return b"frame"
+
+        with patch.object(camera_service, "_capture_camera_frame_bytes_uncoalesced", slow):
+            leader = asyncio.create_task(camera_service.capture_camera_frame_bytes("10.0.2.43", "c", "P2S"))
+            await asyncio.sleep(0.01)
+            follower = asyncio.create_task(camera_service.capture_camera_frame_bytes("10.0.2.43", "c", "P2S"))
+            await asyncio.sleep(0.01)
+
+            leader.cancel()
+            with pytest.raises(asyncio.CancelledError):
+                await leader
+
+            assert await follower == b"frame"
+
+        assert calls == 1, "the cancelled leader should not have triggered a second capture"
+
+    @pytest.mark.asyncio
+    async def test_follower_honours_its_own_timeout(self):
+        """Joining an in-flight capture must not inherit the leader's deadline.
+
+        Obico passes 20s and /camera/snapshot passes 15s, so a follower that
+        blindly awaited the leader could wait a third longer than it asked for.
+        Giving up returns None (a normal "no frame" result for these callers)
+        and leaves the leader running for anyone else waiting on it.
+        """
+
+        async def very_slow(*_args, **_kwargs):
+            await asyncio.sleep(0.5)
+            return b"late"
+
+        with patch.object(camera_service, "_capture_camera_frame_bytes_uncoalesced", very_slow):
+            leader = asyncio.create_task(camera_service.capture_camera_frame_bytes("10.0.2.43", "c", "P2S", timeout=20))
+            await asyncio.sleep(0.01)
+
+            # Our deadline is far shorter than the leader's.
+            result = await camera_service.capture_camera_frame_bytes("10.0.2.43", "c", "P2S", timeout=0.05)
+            assert result is None
+
+            # The leader is untouched and still running for other waiters.
+            assert not leader.done()
+            assert await leader == b"late"

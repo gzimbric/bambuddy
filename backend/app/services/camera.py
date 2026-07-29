@@ -568,7 +568,19 @@ async def capture_camera_frame_bytes(
     if existing is not None and not existing.done():
         logger.debug("Joining in-flight camera capture for %s", ip_address)
         try:
-            return await asyncio.shield(existing)
+            # Respect *our* deadline, not the leader's. Callers pass different
+            # timeouts — Obico uses 20s, /camera/snapshot 15s, the diagnose tool
+            # its own — so inheriting the leader's would make a caller wait past
+            # its own limit, or cut it short. shield() keeps the capture running
+            # for whoever else is waiting if we give up first.
+            return await asyncio.wait_for(asyncio.shield(existing), timeout=timeout)
+        except TimeoutError:
+            logger.debug(
+                "In-flight capture for %s outlived our %ss deadline; giving up without competing",
+                ip_address,
+                timeout,
+            )
+            return None
         except Exception:
             # The leader failed; fall through and try our own capture rather
             # than inheriting its error.
