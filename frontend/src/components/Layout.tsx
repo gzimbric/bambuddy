@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo, Suspense } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { Printer, Archive, ListOrdered, BarChart3, Cloud, Settings, Sun, Moon, Monitor, ChevronLeft, ChevronRight, Keyboard, Github, ArrowUpCircle, Wrench, FolderKanban, FolderOpen, X, Menu, Info, Plug, Bug, LogOut, Key, Loader2, Disc3, ShieldAlert, Globe, Bell, type LucideIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -929,7 +929,20 @@ export function Layout() {
             </button>
           </div>
         )}
-        <Outlet />
+        {/* Route chunks suspend here, not above <Routes>. A boundary outside
+            the router would unmount this whole shell — sidebar, WebSocket
+            provider and auth guard — on every navigation, tear down the socket
+            and refetch everything. Keeping it around <Outlet /> means only the
+            page area shows the fallback. */}
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center py-24">
+              <div className="w-8 h-8 border-2 border-bambu-green border-t-transparent rounded-full animate-spin" />
+            </div>
+          }
+        >
+          <Outlet />
+        </Suspense>
       </main>
 
       <UnknownSpoolModal

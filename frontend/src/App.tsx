@@ -178,9 +178,11 @@ function App() {
             <SliceJobTrackerProvider>
             <StreamTokenSync />
             <BrowserRouter>
-              {/* Suspense boundary for the lazily-loaded route chunks. The
-                  fallback is deliberately minimal — chunks are small and
-                  usually resolve within a frame or two on a LAN. */}
+              {/* Outer boundary — only catches the standalone routes that
+                  render outside a layout (login, setup, camera, overlay,
+                  cam wall). Pages inside Layout/SpoolBuddyLayout suspend at
+                  the boundary around their <Outlet />, so navigating within
+                  the app never unmounts the shell or the WebSocket. */}
               <Suspense
                 fallback={
                   <div className="flex items-center justify-center min-h-screen bg-bambu-dark">

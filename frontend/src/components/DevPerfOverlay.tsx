@@ -23,6 +23,7 @@ interface ChunkEntry {
   size: number;
   duration: number;
   at: number;
+  cached: boolean;
 }
 
 const fmtBytes = (b: number) => {
@@ -75,11 +76,16 @@ export function DevPerfOverlay() {
       for (const e of entries) {
         const r = e as PerformanceResourceTiming;
         if (r.initiatorType !== 'script' && !r.name.endsWith('.js')) continue;
+        // A cache hit reports transferSize 0 with a real decodedBodySize, which
+        // is why every row read "—" before. Show the decoded size and mark the
+        // row instead, so a cached chunk is distinguishable from a missing one.
+        const cached = r.transferSize === 0 && r.decodedBodySize > 0;
         next.push({
           name: r.name,
-          size: r.transferSize || r.encodedBodySize || 0,
+          size: r.transferSize || r.encodedBodySize || r.decodedBodySize || 0,
           duration: r.duration,
           at: r.startTime,
+          cached,
         });
       }
       if (next.length) {
@@ -107,6 +113,7 @@ export function DevPerfOverlay() {
   }, [showQueries, queryClient]);
 
   const totalJs = useMemo(() => chunks.reduce((sum, c) => sum + c.size, 0), [chunks]);
+  const cachedCount = useMemo(() => chunks.filter((c) => c.cached).length, [chunks]);
 
   const queries = useMemo(() => {
     if (!showQueries) return [];
@@ -168,10 +175,16 @@ export function DevPerfOverlay() {
             {(showRoutes && (!showQueries || tab === 'routes')) && (
               <>
                 <div className="flex justify-between text-bambu-gray font-sans mb-2">
-                  <span>{chunks.length} JS chunks</span>
-                  <span className="text-white">{fmtBytes(totalJs)} transferred</span>
+                  <span>
+                    {chunks.length} JS chunks
+                    {cachedCount > 0 && <span className="text-bambu-gray/60"> · {cachedCount} cached</span>}
+                  </span>
+                  <span className="text-white">{fmtBytes(totalJs)}</span>
                 </div>
                 {chunks.length === 0 && <p className="text-bambu-gray">No script timings recorded.</p>}
+                {cachedCount > 0 && (
+                  <p className="text-bambu-gray/50 font-sans pb-1">* served from cache (decoded size)</p>
+                )}
                 {chunks
                   .slice()
                   .sort((a, b) => a.at - b.at)
@@ -180,8 +193,13 @@ export function DevPerfOverlay() {
                       <span className="text-white truncate flex-1" title={c.name}>
                         {shortName(c.name)}
                       </span>
-                      <span className="text-bambu-gray shrink-0">{fmtBytes(c.size)}</span>
-                      <span className="text-bambu-gray/60 shrink-0 w-14 text-right">{c.duration.toFixed(0)}ms</span>
+                      <span className={`shrink-0 ${c.cached ? 'text-bambu-gray/50' : 'text-bambu-gray'}`}>
+                        {fmtBytes(c.size)}
+                        {c.cached && '*'}
+                      </span>
+                      <span className="text-bambu-gray/60 shrink-0 w-14 text-right">
+                        {c.duration < 1 ? '<1ms' : `${c.duration.toFixed(0)}ms`}
+                      </span>
                     </div>
                   ))}
               </>

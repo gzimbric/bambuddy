@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo, Suspense } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useQuery, useQueries } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
@@ -223,10 +223,20 @@ export function SpoolBuddyLayout() {
         />
 
         <main className="flex-1 overflow-y-auto">
-          <Outlet context={{
-            selectedPrinterId, setSelectedPrinterId, sbState: sbStateForUi, setAlert,
-            displayBrightness, setDisplayBrightness,
-          }} />
+          {/* Same reasoning as the main Layout: suspend the page, not the
+              kiosk shell, so the status bar and nav survive navigation. */}
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center py-24">
+                <div className="w-8 h-8 border-2 border-bambu-green border-t-transparent rounded-full animate-spin" />
+              </div>
+            }
+          >
+            <Outlet context={{
+              selectedPrinterId, setSelectedPrinterId, sbState: sbStateForUi, setAlert,
+              displayBrightness, setDisplayBrightness,
+            }} />
+          </Suspense>
         </main>
 
         {!keyboardVisible && <SpoolBuddyStatusBar alert={alert} />}
