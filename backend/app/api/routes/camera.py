@@ -5,6 +5,7 @@ import logging
 import os
 import subprocess
 import sys
+import time
 from collections.abc import AsyncGenerator
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, WebSocket, WebSocketDisconnect
@@ -1830,6 +1831,11 @@ async def generate_mse_fmp4_stream(
         process = await asyncio.create_subprocess_exec(
             *cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
+        # Register with the stream bookkeeping so the orphan reaper (which
+        # SIGKILLs any bblp ffmpeg not in _active_streams) doesn't treat this
+        # long-lived upstream as a leak and kill it mid-stream.
+        _active_streams[key] = process
+        _spawned_ffmpeg_pids[process.pid] = time.time()
         assert process.stdout is not None
         while not disconnect_event.is_set():
             chunk = await process.stdout.read(65536)
@@ -1856,6 +1862,7 @@ async def generate_mse_fmp4_stream(
         logger.exception("MSE upstream failed for %s", ip_address)
     finally:
         _mse_init_segments.pop(key, None)
+        _active_streams.pop(key, None)
         if process is not None:
             await _terminate_ffmpeg(process)
         try:
