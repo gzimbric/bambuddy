@@ -527,6 +527,21 @@ async def capture_camera_frame(
     return False
 
 
+# In-flight one-shot captures, keyed by printer IP.
+#
+# Bambu firmware allows exactly ONE camera connection. Callers already avoid
+# competing with the fan-out broadcaster via is_stream_active() (#1271, #1348),
+# but nothing coordinated the one-shot capturers with *each other*. When no
+# viewer is attached, the Obico poll loop, the /camera/snapshot endpoint and the
+# diagnose tool each open their own RTSP socket, and they routinely overlap —
+# observed on a P2S as two captures 207ms apart, which is exactly the condition
+# that produces "RTSP read timeout" and a stale fan-out stream.
+#
+# Single-flight fixes it without any caller changes: whoever asks first does the
+# capture, everyone arriving while it is in progress awaits the same result.
+_inflight_captures: dict[str, asyncio.Task] = {}
+
+
 async def capture_camera_frame_bytes(
     ip_address: str,
     access_code: str,
@@ -535,8 +550,10 @@ async def capture_camera_frame_bytes(
 ) -> bytes | None:
     """Capture a single frame and return as JPEG bytes (no disk write).
 
-    Uses the same protocol selection as capture_camera_frame but returns
-    bytes directly instead of writing to disk.
+    Concurrent calls for the same printer are coalesced — see
+    ``_inflight_captures`` above. Callers get identical bytes, which is correct
+    for every consumer here (all of them want "a recent frame", not "a frame
+    captured at exactly my timestamp").
 
     Args:
         ip_address: Printer IP address
@@ -547,6 +564,32 @@ async def capture_camera_frame_bytes(
     Returns:
         JPEG bytes if capture was successful, None otherwise
     """
+    existing = _inflight_captures.get(ip_address)
+    if existing is not None and not existing.done():
+        logger.debug("Joining in-flight camera capture for %s", ip_address)
+        try:
+            return await asyncio.shield(existing)
+        except Exception:
+            # The leader failed; fall through and try our own capture rather
+            # than inheriting its error.
+            pass
+
+    task = asyncio.ensure_future(_capture_camera_frame_bytes_uncoalesced(ip_address, access_code, model, timeout))
+    _inflight_captures[ip_address] = task
+    try:
+        return await asyncio.shield(task)
+    finally:
+        if _inflight_captures.get(ip_address) is task:
+            _inflight_captures.pop(ip_address, None)
+
+
+async def _capture_camera_frame_bytes_uncoalesced(
+    ip_address: str,
+    access_code: str,
+    model: str | None,
+    timeout: int = 15,
+) -> bytes | None:
+    """The actual capture. Call ``capture_camera_frame_bytes`` instead."""
     # Chamber image models: A1/P1 - returns bytes directly
     if is_chamber_image_model(model):
         logger.info("Capturing camera frame bytes from %s using chamber image protocol (model: %s)", ip_address, model)

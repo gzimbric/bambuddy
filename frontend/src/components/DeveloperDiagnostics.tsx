@@ -29,6 +29,13 @@ interface CameraDiagnostics {
   };
   frame_buffer: { has_frame: boolean; frame_bytes: number; seconds_since_frame: number | null };
   ffmpeg: { path: string | null; tracked_pids: number[] };
+  // Optional: older backends predate the consumers block.
+  consumers?: {
+    browser_viewers: number;
+    obico_polling: boolean;
+    obico_poll_interval_s: number | null;
+    inflight_oneshot_captures: string[];
+  };
 }
 
 function Row({ label, value, warn }: { label: string; value: React.ReactNode; warn?: boolean }) {
@@ -115,7 +122,24 @@ export function DeveloperDiagnostics({ printerId }: { printerId: number }) {
       <div className="bg-bambu-dark rounded-lg p-2">
         <Row label="Upstream" value={streaming ? 'dialled' : 'idle'} />
         <Row label="Stream keys" value={data.upstream.active_stream_keys.join(', ') || '—'} />
-        <Row label="Viewers sharing" value={String(viewers)} />
+        <Row label="Browser viewers" value={String(viewers)} />
+        {data.consumers && (
+          <Row
+            label="Backend consumers"
+            value={
+              [
+                data.consumers.obico_polling
+                  ? `Obico every ${data.consumers.obico_poll_interval_s ?? '?'}s`
+                  : null,
+                data.consumers.inflight_oneshot_captures.length
+                  ? `${data.consumers.inflight_oneshot_captures.length} capture in flight`
+                  : null,
+              ]
+                .filter(Boolean)
+                .join(' · ') || 'none'
+            }
+          />
+        )}
         <Row
           label="Frame buffer"
           value={
@@ -128,6 +152,13 @@ export function DeveloperDiagnostics({ printerId }: { printerId: number }) {
         {staleBuffer && (
           <p className="text-amber-400 mt-1">
             Upstream is dialled but the buffer is empty — snapshots and Obico will starve.
+          </p>
+        )}
+        {streaming && viewers === 0 && (
+          <p className="text-bambu-gray mt-1">
+            {data.consumers?.obico_polling
+              ? 'Dialled with no browser viewer — Obico polling keeps it warm. Expected.'
+              : 'Dialled with no browser viewer — lingering after the last viewer left; the janitor reaps it after ~60s idle.'}
           </p>
         )}
         <Row label="ffmpeg PIDs" value={data.ffmpeg.tracked_pids.join(', ') || '—'} />

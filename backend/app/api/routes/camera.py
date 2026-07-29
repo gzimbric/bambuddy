@@ -2018,6 +2018,48 @@ async def camera_mse_stream(websocket: WebSocket, printer_id: int, token: str | 
 # =============================================================================
 
 
+async def _describe_camera_consumers(printer_id: int) -> dict:
+    """Attribute camera usage beyond browser viewers.
+
+    The printer allows one camera connection, and several *backend* consumers
+    use it without any browser involved: Obico failure detection polls on a
+    timer, the snapshot endpoint serves thumbnails, timelapse banks frames.
+    None of them increment the WebSocket subscriber count, so reporting only
+    that number misattributes normal background activity as a stuck stream.
+    """
+    browser_viewers = sum(
+        get_subscriber_count(k) for k in list(_active_streams.keys()) if k.startswith(f"{printer_id}-")
+    )
+
+    obico_on = False
+    obico_interval = None
+    try:
+        from backend.app.services.obico_detection import obico_detection_service
+
+        cfg = await obico_detection_service._load_settings()
+        enabled_printers = cfg.get("enabled_printers")
+        # None means "all printers" by this service's convention.
+        obico_on = bool(cfg.get("enabled")) and (enabled_printers is None or printer_id in enabled_printers)
+        obico_interval = cfg.get("poll_interval")
+    except Exception:  # pragma: no cover - diagnostics must never raise
+        pass
+
+    inflight: list[str] = []
+    try:
+        from backend.app.services.camera import _inflight_captures
+
+        inflight = [ip for ip, task in _inflight_captures.items() if not task.done()]
+    except Exception:  # pragma: no cover
+        pass
+
+    return {
+        "browser_viewers": browser_viewers,
+        "obico_polling": obico_on,
+        "obico_poll_interval_s": obico_interval,
+        "inflight_oneshot_captures": inflight,
+    }
+
+
 @router.get("/{printer_id}/camera/dev-diagnostics")
 async def camera_dev_diagnostics(
     printer_id: int,
@@ -2072,4 +2114,9 @@ async def camera_dev_diagnostics(
             "path": get_ffmpeg_path(),
             "tracked_pids": sorted(_spawned_ffmpeg_pids),
         },
+        # Why the upstream is dialled. "subscribers" counts browser viewers
+        # only, so a panel showing just that reads "0 viewers" while Obico or a
+        # snapshot poll is legitimately driving the camera — which looks like a
+        # leak and isn't one.
+        "consumers": await _describe_camera_consumers(printer_id),
     }
