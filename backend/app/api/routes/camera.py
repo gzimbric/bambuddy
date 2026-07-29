@@ -1718,37 +1718,71 @@ async def cleanup_orphaned_streams():
 # H.264 passthrough (MSE) streaming
 # =============================================================================
 #
-# The MJPEG path above decodes every frame and re-encodes it as JPEG, which
-# costs ~1 CPU core per stream and ~11 Mbps at 1080p because MJPEG carries no
-# inter-frame compression. RTSP-capable printers already emit H.264, so we can
-# *remux* it into fragmented MP4 (`-c:v copy`) and let the browser hardware-
-# decode it via Media Source Extensions: measured on a P2S, ~1 Mbps and a few
-# percent of a core for the same picture.
+# The MJPEG path decodes every frame and re-encodes it as JPEG: ~1 CPU core per
+# stream and ~11 Mbps at 1080p, because MJPEG carries no inter-frame
+# compression. RTSP-capable printers already emit H.264, so we *remux* it into
+# fragmented MP4 (`-c:v copy`) and let the browser hardware-decode it via Media
+# Source Extensions — measured on a P2S: ~1 Mbps and a few percent of a core.
 #
-# Delivered over the app's own WebSocket origin rather than a second port, so
-# nothing new has to be exposed or tunnelled — the browser talks to the same
-# host it already uses for the UI.
+# Delivered over the app's own WebSocket origin, so nothing extra has to be
+# exposed, port-forwarded or tunnelled.
 #
-# Chamber-image printers (A1 / A1 mini / P1P / P1S) have no H.264 to copy and
-# keep using the MJPEG path.
+# Two properties this path MUST preserve:
+#
+# 1. One upstream per printer. Bambu firmware accepts exactly ONE camera
+#    connection; a second dial makes both sides thrash. Every viewer therefore
+#    shares a single ffmpeg through the same fan-out broadcaster the MJPEG path
+#    uses — opening the camera in three tabs must not dial the printer 3x.
+#
+# 2. Fragment-aligned delivery. fMP4 is an init segment (ftyp+moov) followed by
+#    [moof|mdat] fragments. A subscriber that joins mid-fragment cannot decode,
+#    so the pump emits whole fragments and the init segment is cached and
+#    replayed to every new subscriber.
 
-# fMP4 needs to start with an initialisation segment; a client that joins
-# mid-stream cannot decode until it sees one. ffmpeg emits it first, so we
-# cache it per stream and replay it to late subscribers.
-_MSE_QUEUE_SIZE = 8
+# Cached init segment per broadcaster key, so late joiners can decode.
+_mse_init_segments: dict[str, bytes] = {}
+# How long a joiner waits for the init segment before giving up (ffmpeg needs
+# to see the RTSP stream before it can emit moov).
+_MSE_INIT_WAIT_SECONDS = 15.0
+
+
+def _split_fmp4_fragments(buffer: bytes) -> tuple[list[bytes], bytes]:
+    """Split a byte buffer on fMP4 fragment boundaries.
+
+    A fragment starts at the 4-byte size field preceding a ``moof`` box.
+    Returns (complete_fragments, remainder). The remainder is whatever follows
+    the last complete boundary and is carried into the next read.
+    """
+    boundaries: list[int] = []
+    idx = 0
+    while True:
+        found = buffer.find(b"moof", idx)
+        if found < 4:
+            if found < 0:
+                break
+            idx = found + 4
+            continue
+        boundaries.append(found - 4)
+        idx = found + 4
+    if len(boundaries) < 2:
+        return [], buffer
+    pieces = [buffer[boundaries[i] : boundaries[i + 1]] for i in range(len(boundaries) - 1)]
+    return pieces, buffer[boundaries[-1] :]
 
 
 async def generate_mse_fmp4_stream(
+    key: str,
     ip_address: str,
     access_code: str,
     model: str | None,
     disconnect_event: asyncio.Event,
 ) -> AsyncGenerator[bytes, None]:
-    """Yield fragmented-MP4 chunks remuxed from the printer's H.264 RTSP feed.
+    """Yield whole fMP4 fragments remuxed from the printer's H.264 RTSP feed.
 
-    No transcoding: `-c:v copy` moves the compressed frames into a new
-    container. `-movflags cmaf` produces the fragmented layout MSE requires
-    (moof/mdat fragments after an ftyp+moov init segment).
+    No transcoding: ``-c:v copy`` moves the compressed frames into a new
+    container. ``-frag_duration`` keeps fragments short so data arrives
+    continuously — Bambu's GOP is long, and keyframe-only fragments would
+    deliver multi-second bursts that stall the player between them.
     """
     ffmpeg = get_ffmpeg_path()
     if not ffmpeg:
@@ -1777,31 +1811,51 @@ async def generate_mse_fmp4_stream(
         camera_url,
         "-an",
         "-c:v",
-        "copy",  # <- passthrough; the whole point
+        "copy",  # passthrough — the whole point
         "-f",
         "mp4",
         "-movflags",
         "cmaf",
+        # ~200ms fragments: smooth delivery instead of GOP-sized bursts.
+        "-frag_duration",
+        "200000",
         "-",
     ]
-    logger.info("Starting MSE (H.264 passthrough) stream for %s model=%s", ip_address, model)
+    logger.info("Starting MSE (H.264 passthrough) upstream for %s model=%s key=%s", ip_address, model, key)
 
     process = None
+    buffer = b""
+    init_captured = False
     try:
         process = await asyncio.create_subprocess_exec(
             *cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
         assert process.stdout is not None
         while not disconnect_event.is_set():
-            chunk = await process.stdout.read(32768)
+            chunk = await process.stdout.read(65536)
             if not chunk:
                 break
-            yield chunk
+            buffer += chunk
+
+            if not init_captured:
+                # Everything before the first fragment boundary is ftyp+moov.
+                first = buffer.find(b"moof")
+                if first < 4:
+                    continue
+                _mse_init_segments[key] = buffer[: first - 4]
+                init_captured = True
+                buffer = buffer[first - 4 :]
+                logger.info("MSE init segment captured for %s (%d bytes)", key, len(_mse_init_segments[key]))
+
+            fragments, buffer = _split_fmp4_fragments(buffer)
+            for fragment in fragments:
+                yield fragment
     except asyncio.CancelledError:
         raise
     except Exception:
-        logger.exception("MSE stream failed for %s", ip_address)
+        logger.exception("MSE upstream failed for %s", ip_address)
     finally:
+        _mse_init_segments.pop(key, None)
         if process is not None:
             await _terminate_ffmpeg(process)
         try:
@@ -1812,17 +1866,12 @@ async def generate_mse_fmp4_stream(
 
 @router.websocket("/{printer_id}/camera/mse")
 async def camera_mse_stream(websocket: WebSocket, printer_id: int, token: str | None = Query(default=None)) -> None:
-    """Stream the printer camera as fragmented MP4 (H.264 passthrough) over WebSocket.
+    """Stream the printer camera as fragmented MP4 (H.264 passthrough).
 
-    Auth mirrors the MJPEG stream endpoint: a camera stream token is required
-    when auth is enabled. Rejected *before* accept() so an unauthorised caller
-    never receives frames.
-
-    Only RTSP-capable models are served here; chamber-image printers have no
-    H.264 stream to copy and must use the MJPEG endpoint.
+    Auth mirrors the MJPEG stream endpoint and is checked *before* accept() so
+    an unauthorised caller never receives a frame. Non-RTSP models are refused
+    with 4415 so the client can fall back to MJPEG.
     """
-    # Fail-closed auth, mirroring the /ws endpoint: refuse *before* accept()
-    # so an unauthorised caller never receives a single frame.
     try:
         async with database.async_session() as db:
             auth_required = await is_auth_enabled(db)
@@ -1844,21 +1893,44 @@ async def camera_mse_stream(websocket: WebSocket, printer_id: int, token: str | 
         ip_address, access_code, model = printer.ip_address, printer.access_code, printer.model
 
     if not supports_rtsp(model):
-        # No H.264 to passthrough — tell the client to fall back to MJPEG.
+        # Chamber-image printers have no H.264 to copy — MJPEG is correct there.
         await websocket.close(code=4415)
         return
 
     await websocket.accept()
-    disconnect_event = asyncio.Event()
+
+    # Share ONE ffmpeg per printer across all viewers: the firmware accepts a
+    # single camera connection, so per-socket upstreams would thrash.
+    key = f"{printer_id}-mse"
+    broadcaster = await get_or_create_broadcaster(
+        key,
+        lambda disconnect_event: generate_mse_fmp4_stream(key, ip_address, access_code, model, disconnect_event),
+    )
+    queue = await broadcaster.subscribe()
+
     try:
-        async for chunk in generate_mse_fmp4_stream(ip_address, access_code, model, disconnect_event):
-            await websocket.send_bytes(chunk)
+        # A joiner cannot decode fragments without the init segment, and the
+        # first subscriber arrives before ffmpeg has emitted moov.
+        waited = 0.0
+        while key not in _mse_init_segments and waited < _MSE_INIT_WAIT_SECONDS:
+            await asyncio.sleep(0.1)
+            waited += 0.1
+        init = _mse_init_segments.get(key)
+        if init is None:
+            logger.warning("MSE init segment never arrived for %s; closing", key)
+            await websocket.close(code=1011)
+            return
+        await websocket.send_bytes(init)
+
+        async for fragment in iter_subscriber(broadcaster, queue):
+            await websocket.send_bytes(fragment)
     except (WebSocketDisconnect, RuntimeError):
         pass  # client went away
     except Exception:
         logger.exception("MSE websocket failed for printer %s", printer_id)
     finally:
-        disconnect_event.set()
+        remaining = await broadcaster.unsubscribe(queue)
+        logger.debug("MSE subscriber left %s (%d remaining)", key, remaining)
         try:
             await websocket.close()
         except Exception:
