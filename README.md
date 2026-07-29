@@ -163,7 +163,10 @@ Optional but recommended — drop the [`slicer-api/` Compose stack](slicer-api/R
 - External camera support (MJPEG, RTSP, HTTP snapshot, USB/V4L2) with layer-based timelapse
 - **Build plate empty detection** - Auto-pause print if objects detected on plate (multi-reference calibration, ROI adjustment)
 - Fan monitoring and **speed control** for part-cooling, auxiliary, and chamber fans (0–100% with customizable quick-select presets)
-- 🌀 **[This fork] P2S/X2D accessory fan support** — adds the **left auxiliary part cooling fan** (control + monitoring) and presence-aware **exhaust fan** handling. See [Fork additions](#-fork-additions-p2sx2d-accessory-fans) below.
+- 🌀 **[This fork] P2S/X2D accessory fan support** — adds the **left auxiliary part cooling fan** (control + monitoring) and presence-aware **exhaust fan** handling. See [Fork additions](#-fork-additions) below.
+- 🌀 **[This fork] Dev Mode** — opt-in in-app diagnostics: camera subsystem panel, stream transport override, bundle/route performance overlay, query cache inspector, raw MQTT state. Distinct from *Bambu's* printer-side Developer Mode. See [Fork additions](#-fork-additions).
+- 🌀 **[This fork] Faster first load** — route-level code splitting drops the initial download from 8.4 MB to 4.5 MB; heavy pages load on demand.
+- 🌀 **[This fork] H.264 camera passthrough** — remuxes the printer's stream instead of transcoding to MJPEG (~11× less bandwidth, ~10–50× less CPU), with automatic MJPEG fallback for A1/P1 models.
 - Printer control (stop, pause, resume, chamber light, print speed, **airduct mode** for P2S/H2*, **temperature setpoints** for nozzle / bed / **chamber heater** on H2C/H2D/H2DPro/H2S/X2D, **Z-jog / XY-jog / extruder jog**, customizable temperature & fan presets under Settings → Workflow)
 - **Status badges on printer card**: SD Card (green / red), Enclosure Door (green / yellow — X1/P1S/P2S/H2*), Airduct Mode (cooling / heating)
 - **Force Refresh** menu item — request a full status push from the printer without reconnecting
@@ -719,37 +722,28 @@ Full documentation available at **[wiki.bambuddy.cool](http://wiki.bambuddy.cool
 
 ---
 
-## 🌀 Fork additions: P2S/X2D accessory fans
+## 🌀 Fork additions
 
-> **This is a fork of [maziggy/bambuddy](https://github.com/maziggy/bambuddy)** with added support for the two optional fans on the Bambu Lab **P2S** and **X2D**. Everything else matches upstream. Proposed upstream in [maziggy/bambuddy#2660](https://github.com/maziggy/bambuddy/issues/2660).
+> **This is a fork of [maziggy/bambuddy](https://github.com/maziggy/bambuddy).** Everything not listed here matches upstream.
+> Full detail, measurements and caveats: **[docs/FORK-ADDITIONS.md](docs/FORK-ADDITIONS.md)**.
 
-### What this adds
+| Addition | What it gives you | Status |
+|---|---|---|
+| **P2S/X2D accessory fans** | Control + monitoring for the **left auxiliary part cooling fan** (invisible upstream — it's reported only in `device.airduct`, never in a flat field) and presence-aware **exhaust fan** handling, so a base P2S stops showing a dead tile | Proposed upstream — [#2691](https://github.com/maziggy/bambuddy/pull/2691) |
+| **Dev Mode** | Opt-in diagnostics: camera subsystem panel, stream transport override, bundle/route performance overlay, query cache inspector, raw MQTT state | Fork only |
+| **Route code splitting** | First load drops from **8.4 MB to 4.5 MB** (2.2 MB → 1.37 MB gzipped); heavy routes load on demand | Fork only |
+| **Camera reliability** | H.264 passthrough instead of MJPEG transcode (~11.3 → ~1.0 Mbps, ~101% → ~1–9% CPU), plus fixes for two upstream bugs that drop camera streams | Fork only |
+
+### Accessory fans at a glance
 
 | Fan | Upstream | This fork |
 |---|---|---|
 | **Left auxiliary part cooling fan** | not shown, not controllable | ✅ monitored **and controllable** (0–100%) |
 | **Chamber exhaust fan** | shown on every P2S as "Chamber Fan" | ✅ labelled **"Exhaust"**, shown only when the kit is fitted |
 
-On the **P2S** both fans are add-on kits ([left aux fan](https://us.store.bambulab.com/products/auxiliary-part-cooling-fan-left), [exhaust fan kit](https://us.store.bambulab.com/products/external-exhaust-fan-kit-p2s)); on the **X2D** they ship from the factory. Their badges appear **only when the printer actually reports the fan**, so a base P2S is unaffected.
+On the **P2S** both fans are add-on kits ([left aux fan](https://us.store.bambulab.com/products/auxiliary-part-cooling-fan-left), [exhaust fan kit](https://us.store.bambulab.com/products/external-exhaust-fan-kit-p2s)); on the **X2D** they ship from the factory. Badges appear **only when the printer actually reports the fan**, so a base P2S is unaffected.
 
-### How it works
-
-Both fans are detected from the printer's `device.airduct.parts` MQTT report, which lists only the fans that physically exist (decoded id = `raw_id >> 4`, mirroring Bambu Studio's `DevFan::ParseV3_0`). The exhaust kit additionally appears as a `get_version` hardware module (`eef` = "Bambu Lab External Exhaust Fan").
-
-Verified fan → field map on a live P2S (fw `01.02.00.00`), stable across cooling and heating airduct modes:
-
-| Fan | MQTT field | airduct id | Base P2S |
-|---|---|---|---|
-| Part cooling | `cooling_fan_speed` | 1 | built-in |
-| Auxiliary (right; a flap re-tasks it between part-cooling and chamber-filter by mode) | `big_fan1_speed` | 2 | built-in |
-| Exhaust | `big_fan2_speed` | 3 | kit |
-| **Left auxiliary** | *(airduct only — no flat field)* | **10** | kit |
-
-The left aux fan is reported **only** in the airduct and is never mirrored into a flat `big_fanX_speed` field — which is exactly why upstream can't see it. It's driven with `M106 P10`, the same command Bambu's own P2S machine profiles use in their start / layer-change gcode.
-
-### API
-
-The fan-speed endpoint gains an `aux2` option for the left auxiliary fan:
+The fan-speed endpoint gains an `aux2` option:
 
 ```http
 POST /api/v1/printers/{id}/fan-speed?fan=aux2&speed=50
@@ -765,16 +759,21 @@ POST /api/v1/printers/{id}/fan-speed?fan=aux2&speed=50
 ### Building this fork
 
 ```bash
-git clone -b feature/p2s-x2d-accessory-fans https://github.com/gzimbric/bambuddy.git
+# Everything: fans, dev mode, code splitting, camera work
+git clone -b feature/developer-mode https://github.com/gzimbric/bambuddy.git
 cd bambuddy
-docker build -t bambuddy:p2s-fans .
+docker build -t bambuddy:fork .
 ```
 
-Then run it exactly as you would upstream Bambuddy (see [Quick Start](#-quick-start)), substituting the `bambuddy:p2s-fans` image.
+Then run it exactly as you would upstream Bambuddy (see [Quick Start](#-quick-start)), substituting the `bambuddy:fork` image.
+
+For the accessory fans **alone**, clone `-b feature/p2s-x2d-accessory-fans` — that branch is kept clean for upstream review.
 
 ### Status
 
-Branched from upstream `dev`. Tested against a live P2S with both kits fitted: `ruff` + `pytest` (216 passed), `npx tsc`, `vitest` (66 passed), and i18n parity across all 12 locales all clean. Fan mapping was derived empirically by toggling each fan individually on the printer's touchscreen while capturing MQTT, in both cooling and heating airduct modes.
+The fan work is branched from upstream `dev` and tested against a live P2S with both kits fitted: `ruff` + `pytest`, `npx tsc`, `vitest` and i18n parity across all locales clean. Fan mapping was derived empirically by toggling each fan individually on the printer's touchscreen while capturing MQTT, in both cooling and heating airduct modes.
+
+The dev mode, code splitting and camera work are fork-only and have not been submitted upstream. Two of the camera fixes address **upstream** defects rather than anything this fork introduced — see [docs/FORK-ADDITIONS.md](docs/FORK-ADDITIONS.md#4-camera-reliability).
 
 ---
 
