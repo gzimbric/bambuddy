@@ -1771,8 +1771,41 @@ def _split_fmp4_fragments(buffer: bytes) -> tuple[list[bytes], bytes]:
     return pieces, buffer[boundaries[-1] :]
 
 
+async def _pump_mse_snapshots(key: str, printer_id: int, path: str, disconnect_event: asyncio.Event) -> None:
+    """Feed the shared JPEG buffer from the MSE upstream's second output.
+
+    Snapshot callers deliberately refuse to open a competing socket while a
+    stream is active (#1348), so an MSE viewer must keep that buffer fresh or
+    snapshots/Obico/plate-detection silently break. Updating
+    ``_stream_last_frame_times`` also stops the stale-stream janitor from
+    killing this upstream for producing "no frames".
+    """
+    while not disconnect_event.is_set():
+        try:
+            await asyncio.sleep(2.0)
+            data = await asyncio.to_thread(_read_file_bytes, path)
+            # ffmpeg rewrites the file in place; a torn read is possible, so
+            # only accept a complete JPEG (SOI..EOI).
+            if data and data.startswith(b"\xff\xd8") and data.endswith(b"\xff\xd9"):
+                _last_frames[printer_id] = data
+                _stream_last_frame_times[key] = time.time()
+        except asyncio.CancelledError:
+            raise
+        except Exception:  # never let snapshot upkeep kill the video stream
+            logger.debug("MSE snapshot pump hiccup for %s", key, exc_info=True)
+
+
+def _read_file_bytes(path: str) -> bytes | None:
+    try:
+        with open(path, "rb") as fh:
+            return fh.read()
+    except OSError:
+        return None
+
+
 async def generate_mse_fmp4_stream(
     key: str,
+    printer_id: int,
     ip_address: str,
     access_code: str,
     model: str | None,
@@ -1796,6 +1829,13 @@ async def generate_mse_fmp4_stream(
     proxy_port, proxy_server = await create_tls_proxy(ip_address, port)
     camera_url = f"rtsp://bblp:{access_code}@127.0.0.1:{proxy_port}/streaming/live/1"
 
+    # Second output: a low-rate JPEG written to a file. The rest of Bambuddy
+    # (snapshots, Obico polling, plate detection, and the stale-stream janitor)
+    # reads the shared JPEG frame buffer. Without it, an MSE viewer holds the
+    # printer's single camera slot while that buffer stays empty — snapshots
+    # fail and the janitor kills this upstream for having "no frames". One
+    # decoded frame every 2s is negligible next to a full transcode.
+    snapshot_path = f"/tmp/bambuddy-mse-{key}.jpg"
     cmd = [
         ffmpeg,
         "-rtsp_transport",
@@ -1810,6 +1850,9 @@ async def generate_mse_fmp4_stream(
         "low_delay",
         "-i",
         camera_url,
+        # --- output 1: H.264 passthrough as fragmented MP4 on stdout ---
+        "-map",
+        "0:v",
         "-an",
         "-c:v",
         "copy",  # passthrough — the whole point
@@ -1820,11 +1863,26 @@ async def generate_mse_fmp4_stream(
         # ~200ms fragments: smooth delivery instead of GOP-sized bursts.
         "-frag_duration",
         "200000",
-        "-",
+        "pipe:1",
+        # --- output 2: 0.5fps JPEG so the shared frame buffer stays warm ---
+        "-map",
+        "0:v",
+        "-an",
+        "-vf",
+        "fps=1/2",
+        "-q:v",
+        "6",
+        "-update",
+        "1",
+        "-f",
+        "image2",
+        "-y",
+        snapshot_path,
     ]
     logger.info("Starting MSE (H.264 passthrough) upstream for %s model=%s key=%s", ip_address, model, key)
 
     process = None
+    snapshot_task: asyncio.Task | None = None
     buffer = b""
     init_captured = False
     try:
@@ -1836,6 +1894,8 @@ async def generate_mse_fmp4_stream(
         # long-lived upstream as a leak and kill it mid-stream.
         _active_streams[key] = process
         _spawned_ffmpeg_pids[process.pid] = time.time()
+        _stream_last_frame_times[key] = time.time()
+        snapshot_task = asyncio.create_task(_pump_mse_snapshots(key, printer_id, snapshot_path, disconnect_event))
         assert process.stdout is not None
         while not disconnect_event.is_set():
             chunk = await process.stdout.read(65536)
@@ -1861,8 +1921,15 @@ async def generate_mse_fmp4_stream(
     except Exception:
         logger.exception("MSE upstream failed for %s", ip_address)
     finally:
+        if snapshot_task is not None:
+            snapshot_task.cancel()
         _mse_init_segments.pop(key, None)
         _active_streams.pop(key, None)
+        _stream_last_frame_times.pop(key, None)
+        try:
+            os.unlink(snapshot_path)
+        except OSError:
+            pass
         if process is not None:
             await _terminate_ffmpeg(process)
         try:
@@ -1911,7 +1978,9 @@ async def camera_mse_stream(websocket: WebSocket, printer_id: int, token: str | 
     key = f"{printer_id}-mse"
     broadcaster = await get_or_create_broadcaster(
         key,
-        lambda disconnect_event: generate_mse_fmp4_stream(key, ip_address, access_code, model, disconnect_event),
+        lambda disconnect_event: generate_mse_fmp4_stream(
+            key, printer_id, ip_address, access_code, model, disconnect_event
+        ),
     )
     queue = await broadcaster.subscribe()
 
