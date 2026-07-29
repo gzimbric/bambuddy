@@ -2,7 +2,8 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { X, RefreshCw, AlertTriangle, Maximize2, Minimize2, GripVertical, WifiOff, ZoomIn, ZoomOut, Fullscreen, Minimize, Stethoscope } from 'lucide-react';
-import { api, getAuthToken, withStreamToken } from '../api/client';
+import { api, getAuthToken, getStreamToken, withStreamToken } from '../api/client';
+import { MseCameraVideo } from './MseCameraVideo';
 import { useToast } from '../contexts/ToastContext';
 import { useAuth } from '../contexts/AuthContext';
 import { ChamberLight } from './icons/ChamberLight';
@@ -85,6 +86,11 @@ export function EmbeddedCameraViewer({ printerId, printerName, viewerIndex = 0, 
   const [lastTouchCenter, setLastTouchCenter] = useState<{ x: number; y: number } | null>(null);
 
   // Stream state
+  // Prefer H.264 passthrough (MSE) and fall back to the MJPEG <img> when the
+  // printer has no H.264 stream (chamber-image models) or the browser can't
+  // do MSE. Sticky for the lifetime of the viewer so we don't thrash between
+  // transports on a transient hiccup.
+  const [mseUnavailable, setMseUnavailable] = useState(false);
   const [streamError, setStreamError] = useState(false);
   const [streamLoading, setStreamLoading] = useState(true);
   const [imageKey, setImageKey] = useState(Date.now());
@@ -699,22 +705,43 @@ export function EmbeddedCameraViewer({ printerId, printerName, viewerIndex = 0, 
               </div>
             </div>
           )}
-          <img
-            ref={imgRef}
-            key={imageKey}
-            src={streamUrl}
-            alt="Camera stream"
-            className="max-w-full max-h-full object-contain select-none"
-            style={{
-              transform: `scale(${zoomLevel}) translate(${panOffset.x / zoomLevel}px, ${panOffset.y / zoomLevel}px) rotate(${printer?.camera_rotation || 0}deg)`,
-              ...(printer?.camera_rotation === 90 || printer?.camera_rotation === 270 ? { maxWidth: '100%', maxHeight: '100%' } : {}),
-              cursor: zoomLevel > 1 ? (isPanning ? 'grabbing' : 'grab') : 'default',
-            }}
-            onError={handleStreamError}
-            onLoad={handleStreamLoad}
-            onMouseDown={handleImageMouseDown}
-            draggable={false}
-          />
+          {!mseUnavailable ? (
+            <MseCameraVideo
+              printerId={printerId}
+              token={getStreamToken()}
+              className="max-w-full max-h-full object-contain select-none"
+              style={{
+                transform: `scale(${zoomLevel}) translate(${panOffset.x / zoomLevel}px, ${panOffset.y / zoomLevel}px) rotate(${printer?.camera_rotation || 0}deg)`,
+                ...(printer?.camera_rotation === 90 || printer?.camera_rotation === 270 ? { maxWidth: '100%', maxHeight: '100%' } : {}),
+                cursor: zoomLevel > 1 ? (isPanning ? 'grabbing' : 'grab') : 'default',
+              }}
+              onPlaying={handleStreamLoad}
+              onUnsupported={(reason) => {
+                // Not an error the user needs to see — MJPEG is a valid path
+                // for these printers/browsers, so switch quietly.
+                console.debug(`[camera] MSE unavailable (${reason}); using MJPEG`);
+                setMseUnavailable(true);
+              }}
+              onMouseDown={handleImageMouseDown}
+            />
+          ) : (
+            <img
+              ref={imgRef}
+              key={imageKey}
+              src={streamUrl}
+              alt="Camera stream"
+              className="max-w-full max-h-full object-contain select-none"
+              style={{
+                transform: `scale(${zoomLevel}) translate(${panOffset.x / zoomLevel}px, ${panOffset.y / zoomLevel}px) rotate(${printer?.camera_rotation || 0}deg)`,
+                ...(printer?.camera_rotation === 90 || printer?.camera_rotation === 270 ? { maxWidth: '100%', maxHeight: '100%' } : {}),
+                cursor: zoomLevel > 1 ? (isPanning ? 'grabbing' : 'grab') : 'default',
+              }}
+              onError={handleStreamError}
+              onLoad={handleStreamLoad}
+              onMouseDown={handleImageMouseDown}
+              draggable={false}
+            />
+          )}
 
           {/* Zoom controls */}
           <div className="absolute bottom-2 left-2 flex items-center gap-1 bg-black/60 rounded px-1.5 py-1 no-drag">
