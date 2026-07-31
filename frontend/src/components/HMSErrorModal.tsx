@@ -923,11 +923,50 @@ function getShortCode(attr: number, code: number): string {
 // regression — see PrintersPageBucketing.test.ts.
 export function filterKnownHMSErrors(errors: HMSError[]): HMSError[] {
   return errors.filter((error) => {
+    // A backend-resolved description means the fault is documented, even though
+    // ERROR_DESCRIPTIONS cannot contain it: that table is keyed by the 8-hex
+    // print_error family, which shares no keys with the 16-hex hms[] family.
+    // Without this, a documented hms[] fault was dropped unless it happened to
+    // carry firmware actions.
+    //
+    // This function decides what COUNTS: badges, pips, and the "has a problem"
+    // toolbar state all call it. Undocumented codes deliberately fall through —
+    // the printer's own screen does not surface them, so raising an alert for
+    // them in Bambuddy would be a false alarm. They are still displayed, via
+    // selectUndocumentedHMSErrors below.
+    if (error.message) return true;
     const codeNum = parseInt(error.code.replace('0x', ''), 16) || 0;
     const shortCode = getShortCode(error.attr, codeNum);
     if (ERROR_DESCRIPTIONS[shortCode] !== undefined) return true;
     return (error.actions?.length ?? 0) > 0;
   });
+}
+
+// Faults the firmware reported in `hms[]` that are absent from Bambu's published
+// catalogue — no description, no actions. Two of the three codes latched on the
+// P2S in #2728 are of this kind and appear nowhere in the 3397 codes the HMS index
+// publishes, so no catalogue work will ever resolve them.
+//
+// They are shown in the modal for diagnosis but never counted, because the printer
+// itself does not raise them. Identity comparison against filterKnownHMSErrors is
+// intentional: it keeps the two lists exactly complementary.
+export function selectUndocumentedHMSErrors(errors: HMSError[]): HMSError[] {
+  const known = new Set(filterKnownHMSErrors(errors));
+  return errors.filter(
+    (error) =>
+      !known.has(error) && !!error.full_code && /^[0-9A-Fa-f]{16}$/.test(error.full_code)
+  );
+}
+
+// The printer's own screen and Bambu's wiki both identify `hms[]` faults by the
+// full 16-hex code (0500-0300-0002-000E). The 8-hex short form is ambiguous for
+// this family — 65 distinct documented faults collapse onto 0300-0001 alone — so
+// show full_code whenever the backend supplied it.
+function getDisplayCode(fullCode: string | undefined, shortCode: string): string {
+  if (fullCode && /^[0-9A-Fa-f]{16}$/.test(fullCode)) {
+    return (fullCode.toUpperCase().match(/.{4}/g) ?? []).join('-');
+  }
+  return shortCode.replace('_', '-');
 }
 
 function getHMSHomeUrl(): string {
@@ -953,6 +992,7 @@ export function HMSErrorModal({ printerName, errors, onClose, printerId, hasPerm
   // Surface cataloged errors and uncataloged-but-actionable errors. Mirrors
   // filterKnownHMSErrors so the modal and the badge counts agree.
   const knownErrors = filterKnownHMSErrors(errors);
+  const undocumentedErrors = selectUndocumentedHMSErrors(errors);
 
   // Close on Escape key
   useEffect(() => {
@@ -1023,7 +1063,12 @@ export function HMSErrorModal({ printerName, errors, onClose, printerId, hasPerm
                 // Runout guidance (#2587): for an AMS per-slot runout on a paused
                 // print, name the slot the firmware now expects rather than the
                 // misleading generic "insert into the same slot" text.
-                let description = ERROR_DESCRIPTIONS[shortCode] ?? t('hmsErrors.unknownCode');
+                // Backend first: it has the full-code HMS table and the printer's
+                // model, so it can pick model-specific wording. ERROR_DESCRIPTIONS
+                // remains the fallback for print_error faults and for backends
+                // predating the `message` field.
+                let description =
+                  error.message || ERROR_DESCRIPTIONS[shortCode] || t('hmsErrors.unknownCode');
                 if (runoutGuidance && AMS_RUNOUT_SHORT_CODES.has(shortCode)) {
                   if (runoutGuidance.expectedSlotLabel && runoutGuidance.ranOutSlotLabel) {
                     description = t('hmsErrors.runoutExpectedSlot', {
@@ -1039,7 +1084,7 @@ export function HMSErrorModal({ printerName, errors, onClose, printerId, hasPerm
                   }
                 }
                 const hmsHomeUrl = getHMSHomeUrl();
-                const displayCode = shortCode.replace('_', '-');
+                const displayCode = getDisplayCode(error.full_code, shortCode);
 
                 return (
                   <div
@@ -1111,6 +1156,37 @@ export function HMSErrorModal({ printerName, errors, onClose, printerId, hasPerm
                 );
               })}
             </div>
+          )}
+
+          {undocumentedErrors.length > 0 && (
+            <details className="mt-4 rounded-lg border border-bambu-dark-tertiary">
+              <summary className="cursor-pointer select-none px-3 py-2 text-sm text-bambu-gray hover:text-bambu-light">
+                {undocumentedErrors.length} &middot; {t('hmsErrors.unknownCode')}
+              </summary>
+              <div className="px-3 pb-3 pt-1 space-y-1">
+                {undocumentedErrors.map((error, index) => {
+                  const codeNum = parseInt(error.code.replace('0x', ''), 16) || 0;
+                  const shortCode = getShortCode(error.attr, codeNum);
+                  return (
+                    <div
+                      key={`undocumented-${error.full_code ?? shortCode}-${index}`}
+                      className="flex items-center justify-between gap-3 text-xs font-mono text-bambu-gray"
+                    >
+                      <span>{getDisplayCode(error.full_code, shortCode)}</span>
+                      <a
+                        href={getHMSHomeUrl()}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-bambu-green hover:underline"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        {t('hmsErrors.viewOnWiki')}
+                      </a>
+                    </div>
+                  );
+                })}
+              </div>
+            </details>
           )}
         </div>
 
