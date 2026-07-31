@@ -923,11 +923,29 @@ function getShortCode(attr: number, code: number): string {
 // regression — see PrintersPageBucketing.test.ts.
 export function filterKnownHMSErrors(errors: HMSError[]): HMSError[] {
   return errors.filter((error) => {
+    // A backend-resolved description means the fault is documented, even though
+    // ERROR_DESCRIPTIONS can't contain it: that table is keyed by the 8-hex
+    // print_error family, which shares no keys with the 16-hex hms[] family.
+    // Without this, every hms[]-array fault was dropped here unless it happened
+    // to carry firmware actions — so a printer could report a latched fault that
+    // the modal then listed as nothing at all.
+    if (error.message) return true;
     const codeNum = parseInt(error.code.replace('0x', ''), 16) || 0;
     const shortCode = getShortCode(error.attr, codeNum);
     if (ERROR_DESCRIPTIONS[shortCode] !== undefined) return true;
     return (error.actions?.length ?? 0) > 0;
   });
+}
+
+// The printer's own screen and Bambu's wiki both identify `hms[]` faults by the
+// full 16-hex code (0500-0300-0002-000E). The 8-hex short form is ambiguous for
+// this family — 65 distinct documented faults collapse onto 0300-0001 alone — so
+// show full_code whenever the backend supplied it.
+function getDisplayCode(fullCode: string | undefined, shortCode: string): string {
+  if (fullCode && /^[0-9A-Fa-f]{16}$/.test(fullCode)) {
+    return (fullCode.toUpperCase().match(/.{4}/g) ?? []).join('-');
+  }
+  return shortCode.replace('_', '-');
 }
 
 function getHMSHomeUrl(): string {
@@ -1023,7 +1041,12 @@ export function HMSErrorModal({ printerName, errors, onClose, printerId, hasPerm
                 // Runout guidance (#2587): for an AMS per-slot runout on a paused
                 // print, name the slot the firmware now expects rather than the
                 // misleading generic "insert into the same slot" text.
-                let description = ERROR_DESCRIPTIONS[shortCode] ?? t('hmsErrors.unknownCode');
+                // Backend first: it has the full-code HMS table and the printer's
+                // model, so it can pick model-specific wording. ERROR_DESCRIPTIONS
+                // remains the fallback for print_error faults and for backends
+                // predating the `message` field.
+                let description =
+                  error.message || ERROR_DESCRIPTIONS[shortCode] || t('hmsErrors.unknownCode');
                 if (runoutGuidance && AMS_RUNOUT_SHORT_CODES.has(shortCode)) {
                   if (runoutGuidance.expectedSlotLabel && runoutGuidance.ranOutSlotLabel) {
                     description = t('hmsErrors.runoutExpectedSlot', {
@@ -1039,7 +1062,7 @@ export function HMSErrorModal({ printerName, errors, onClose, printerId, hasPerm
                   }
                 }
                 const hmsHomeUrl = getHMSHomeUrl();
-                const displayCode = shortCode.replace('_', '-');
+                const displayCode = getDisplayCode(error.full_code, shortCode);
 
                 return (
                   <div

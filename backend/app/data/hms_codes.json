@@ -1,0 +1,7527 @@
+{
+ "_comment": "HMS (Health Management System) code descriptions, keyed by the full 16-hex identifier `f\"{attr:08X}{code:08X}\"` from the printer's `hms[]` array. This is a DIFFERENT code family from hms_actions.json / HMS_ERROR_DESCRIPTIONS, which are keyed by the 8-hex `print_error` short code — the two sets do not overlap, so hms[] faults previously had no description source at all.",
+ "_source": "wiki.bambulab.com/en/hms/home English code pages, with gaps filled from Bambu's e.bambulab.com/query.php?lang=en error-string API; a small number were translated from the Chinese pages. Per-entry provenance is in the \"s\" field (wiki | api | translated).",
+ "_schema": "codes[<16-hex>] = [ {d: description, m: [normalised model names], s: source}, ... ] — multiple entries mean the wording is printer-specific; match on `m`, else use the first (widest applicability).",
+ "codes": {
+  "0300010000010003": [
+   {
+    "d": "The heatbed temperature is abnormal; the heater is over temperature.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300010000010005": [
+   {
+    "d": "A heatbed temperature control issue has been detected and the heating module may be damaged. Please power off the device immediately and follow the Wiki to replace the AC board.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300010000010006": [
+   {
+    "d": "The heatbed temperature is abnormal; the sensor may have an short circuit.",
+    "m": [
+     "A1MINI",
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300010000010007": [
+   {
+    "d": "The heatbed temperature is abnormal; the sensor may have an open circuit.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300010000010008": [
+   {
+    "d": "An abnormality occurs during the heating process of the heatbed. The heating modules may be broken.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030001000001000A": [
+   {
+    "d": "The heatbed temperature control is abnormal, the AC board may be broken.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030001000001000C": [
+   {
+    "d": "The heatbed works at full load for a long time. Temperature control system may be abnormal.",
+    "m": [
+     "A1"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030001000001000D": [
+   {
+    "d": "An abnormality happened in heating modules of heatbed before. To continue to use your printer, please refer to the wiki to troubleshoot.",
+    "m": [
+     "A1"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030001000001000E": [
+   {
+    "d": "The power supply voltage does not match the machine; the heatbed has been disabled.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030001000002000F": [
+   {
+    "d": "The chamber target temperature is set too high, while the heatbed target temperature is set too low. Heatbed cooling has been skipped. It is recommended to set matching chamber and heatbed temperatures.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300010000030008": [
+   {
+    "d": "The temperature of the heated bed exceeds the limit and automatically adjusts to the limit temperature.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300020000010001": [
+   {
+    "d": "The nozzle temperature is abnormal; the heater may have a short circuit.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The right extruder nozzle temperature is abnormal; the heater may have a short circuit.",
+    "m": [
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "Right extruder nozzle temperature error. The heater coil may be short-circuited. Please check if the insulation layer is intact.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300020000010002": [
+   {
+    "d": "The nozzle temperature is abnormal,the heater may be open circuit.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The right extruder nozzle temperature is abnormal; the heater may have an open circuit.",
+    "m": [
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "Right extruder nozzle temperature error. The heater coil may be open-circuited. Please check if the connector is loose.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300020000010003": [
+   {
+    "d": "The nozzle temperature is abnormal; the heater is over temperature.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The right extruder nozzle temperature is abnormal; the heater is over temperature.",
+    "m": [
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "Right extruder nozzle temperature error. The heater core may be overheating.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300020000010004": [
+   {
+    "d": "The right nozzle temperature control is abnormal. The hotend might have structural damage.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300020000010006": [
+   {
+    "d": "The nozzle temperature is abnormal, the sensor may be short circuit.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The right extruder nozzle temperature is abnormal; the sensor may have a short circuit, please check whether the connector is properly plugged in.",
+    "m": [
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300020000010007": [
+   {
+    "d": "The Nozzle Temperature Is Abnormal; the Sensor May Have an Open Circuit",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The right extruder nozzle temperature is abnormal; the sensor may have an open circuit.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300020000010008": [
+   {
+    "d": "The right nozzle temperature error, heating failed.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The extruder nozzle temperature is abnormal and cannot reach the set value. This may be caused by an improperly installed nozzle silicone sock.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300020000010009": [
+   {
+    "d": "The nozzle temperature control is abnormal. The hot end may not be installed.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "P2S"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The temperature control of the right extruder nozzle is malfunctioning; the hot end may not be installed. To ensure heating even when the hot end is not installed, please enable maintenance mode in the settings page.",
+    "m": [
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030002000001000B": [
+   {
+    "d": "Abnormal temperature control detected on the right extruder nozzle. This may be caused by an improperly installed Induction Hotend or a fault in the Wireless Temperature Sensor Board (on the Induction Hotend).",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300030000010001": [
+   {
+    "d": "The hotend cooling fan speed is too slow or stopped. It may be stuck or the connector may not be plugged in properly.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   },
+   {
+    "d": "The left/right hotend cooling fan speed is too slow or stopped. The fan may be stuck or the connector may not be plugged in properly.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300030000020002": [
+   {
+    "d": "The hotend cooling fan is running slowly. It may be obstructed. Please check for debris and clean if necessary.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   },
+   {
+    "d": "The left/right hotend cooling fan speed is slow. It may be stuck and need cleaning.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300040000020001": [
+   {
+    "d": "The speed of the part cooling fan is too slow or stopped. It may be stuck, or the connector may not be plugged in properly.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300060000010001": [
+   {
+    "d": "Motor-A has an open-circuit. There may be a loose connection, or the motor may have failed.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300060000010002": [
+   {
+    "d": "Motor-A has a short-circuit. It may have failed.",
+    "m": [
+     "A1MINI",
+     "A2L",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300060000010003": [
+   {
+    "d": "The resistance of Motor-A is abnormal; the motor may have failed.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300070000010001": [
+   {
+    "d": "Motor-B has an open-circuit. The connection may be loose, or the motor may have failed.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300070000010002": [
+   {
+    "d": "Motor-B has a short-circuit. It may have failed.",
+    "m": [
+     "A1MINI",
+     "A2L",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "0300070000010003": [
+   {
+    "d": "The resistance of Motor-B is abnormal; the motor may have failed.",
+    "m": [
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "0300080000010001": [
+   {
+    "d": "Motor-Z has an open-circuit. The connection may be loose, or the motor may have failed.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   },
+   {
+    "d": "The filament currently loaded in the extruder does not support manual extrusion.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300080000010002": [
+   {
+    "d": "Motor-Z has a short-circuit. It May Have Failed.",
+    "m": [
+     "A1MINI",
+     "A2L",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300080000010003": [
+   {
+    "d": "The resistance of Motor-Z is abnormal; the motor may have failed.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300090000010001": [
+   {
+    "d": "The extruder servo motor has an open circuit. The connection may be loose, or the motor may have failed.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300090000010002": [
+   {
+    "d": "The extruder servo motor has a short-circuit. It may have failed.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300090000010003": [
+   {
+    "d": "The resistance of the extruder servo motor is abnormal; the motor may have failed.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300090000020001": [
+   {
+    "d": "The extrusion motor is overloaded. The extruder may be clogged or the filament may be stuck in the tool head.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300090000020002": [
+   {
+    "d": "The extrusion resistance is abnormal. The extruder may be clogged or there may be filament stuck in the toolhead.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300090000020003": [
+   {
+    "d": "The extruder is extruding abnormally. It may be clogged, or the filament may be too thin, causing the extruder to slip",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300090000020004": [
+   {
+    "d": "The extrusion resistance is abnormal. The extruder may be clogged or there may be filament stuck in the toolhead, or the externally mounted filament may be tangled.",
+    "m": [
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300090000020005": [
+   {
+    "d": "The extruder is extruding abnormally. It may be clogged, or the filament may be too thin, causing the extruder to slip, or the externally mounted filament may be tangled.",
+    "m": [
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03000A0000010001": [
+   {
+    "d": "The sensitivity of heatbed force sensor 1/2/3 is too high.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03000A0000010002": [
+   {
+    "d": "The sensitivity of heatbed force sensor 1/2/3 is low.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03000A0000010003": [
+   {
+    "d": "The sensitivity of heatbed force sensor 1/2/3 is too low.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03000A0000010004": [
+   {
+    "d": "An external disturbance was detected on force sensor 1. The heatbed plate may have touched something outside the heatbed.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03000A0000010005": [
+   {
+    "d": "Force sensor 1 detected unexpected continuous force. The heatbed may be stuck, or the analog front end may be broken.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03000D0000010003": [
+   {
+    "d": "The build plate may not be properly placed. If this message appears repeatedly, please check the Wiki for more reasons.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03000D0000010004": [
+   {
+    "d": "The build plate is not placed properly. Please adjust it.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "03000D0000010005": [
+   {
+    "d": "The build plate is not placed properly. Please adjust it.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "03000D0000010006": [
+   {
+    "d": "The build plate is not placed properly. Please adjust it.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "03000D0000010007": [
+   {
+    "d": "The build plate is not placed properly. Please adjust it.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "03000D0000010008": [
+   {
+    "d": "The build plate is not placed properly. Please adjust it.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "03000D0000010009": [
+   {
+    "d": "The build plate is not placed properly. Please adjust it.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "03000D000001000A": [
+   {
+    "d": "The build plate is not placed properly. Please adjust it.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "03000D000001000B": [
+   {
+    "d": "The Z axis motor seems to be stuck when moving. Please check if there is any foreign matter on the Z sliders or Z timing belt wheels.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "03000D000001000C": [
+   {
+    "d": "The heatbed leveling data is abnormal. Please check whether there are any foreign objects on the heatbed and Z slider. If so, please remove them and try again.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03000D0000020001": [
+   {
+    "d": "Heatbed homing abnormal: there may be a bulge on the heatbed or the nozzle tip may not be clean.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03000D0000020003": [
+   {
+    "d": "The build plate may not be properly placed. If this message appears repeatedly, please check the Wiki for more explanations.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "03000D0000020004": [
+   {
+    "d": "The build plate may not be properly placed. If this message appears repeatedly, please check the Wiki for more explanations.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "03000D0000020005": [
+   {
+    "d": "The build plate may not be properly placed. If this message appears repeatedly, please check the Wiki for more explanations.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "03000D0000020006": [
+   {
+    "d": "The build plate may not be properly placed. If this message appears repeatedly, please check the Wiki for more explanations.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "03000D0000020007": [
+   {
+    "d": "The build plate may not be properly placed. If this message appears repeatedly, please check the Wiki for more explanations.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "03000D0000020008": [
+   {
+    "d": "The build plate may not be properly placed. If this message appears repeatedly, please check the Wiki for more explanations.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "03000D0000020009": [
+   {
+    "d": "The build plate may not be properly placed. If this message appears repeatedly, please check the Wiki for more explanations.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "03000D000002000A": [
+   {
+    "d": "The build plate may not be properly placed. If this message appears repeatedly, please check the Wiki for more explanations.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "03000F0000010001": [
+   {
+    "d": "Abnormal accelerometer data detected. Please try to restart the printer.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300100000020001": [
+   {
+    "d": "The resonance frequency of the X axis is low. The timing belt may be loose.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300100000020002": [
+   {
+    "d": "The resonance frequency of the X-axis differs significantly from the previous calibration. Please clean the X-axis linear rail and perform calibration after printing",
+    "m": [
+     "A1",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The resonance frequency of the X axis differs greatly from last calibration. Please clean the carbon rod and rerun the machine calibration afterward",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300100100020003": [
+   {
+    "d": "X-axis vibration compensation data is missing orinvalid. Please re-run the calibration in the\"Maintenance > Calibration\" page.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300110000020001": [
+   {
+    "d": "The resonance frequency of the Y axis is low. The timing belt may be loose.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300110000020002": [
+   {
+    "d": "The resonance frequency of the Y-axis differs greatly from the last calibration. Please clean the Y-axis liner rod and conduct a calibration after printing.",
+    "m": [
+     "A1",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "0300110100020003": [
+   {
+    "d": "Y-axis vibration compensation data is missing orinvalid. Please re-run the calibration in the\"Maintenance > Calibration\" page.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300120000020001": [
+   {
+    "d": "The front cover of the toolhead fell off.",
+    "m": [
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300130000010001": [
+   {
+    "d": "The current sensor of Motor-A is abnormal. This may be caused by a failure in the hardware sampling circuit.",
+    "m": [
+     "A2L",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300140000010001": [
+   {
+    "d": "The current sensor of Motor-B is abnormal. This may be caused by a failure of the hardware sampling circuit.",
+    "m": [
+     "A2L",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "0300150000010001": [
+   {
+    "d": "The current sensor of Motor-Z is abnormal. This may be caused by a failure of the hardware sampling circuit.",
+    "m": [
+     "A2L",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "0300160000010001": [
+   {
+    "d": "The extruder servo motor's current sensor is abnormal. A failure of the hardware sampling circuit may cause this.",
+    "m": [
+     "A2L",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300170000010001": [
+   {
+    "d": "The left/right hotend cooling fan speed is too slow or stopped. The fan may be stuck or the connector may not be plugged in properly.",
+    "m": [
+     "A2L",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300170000020002": [
+   {
+    "d": "The hotend cooling fan speed is slow. It may be stuck and need cleaning.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300180000010001": [
+   {
+    "d": "The extruder eddy current sensor value is too low. The nozzle may not be installed.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The frequency of the extruder eddy current sensor is too low. The nozzle may not be installed, or the nozzle heat sink may be too far away from the sensor.",
+    "m": [
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300180000010002": [
+   {
+    "d": "The sensitivity of the extruder eddy current sensor is low; the nozzle may not be installed correctly.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300180000010003": [
+   {
+    "d": "The extrusion force sensor is not available, the link between the MC and TH may be broken or the sensor is broken.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300180000010004": [
+   {
+    "d": "The extruder eddy current sensor signal is abnormal; the sensor is probably broken.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300180000010005": [
+   {
+    "d": "The Z‑axis motor became stuck during movement. Please check for foreign objects on the Z‑axis sliders or timing belt pulleys, and check whether the extruder eddy current sensor is abnormal.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300180000010006": [
+   {
+    "d": "The heatbed leveling data is abnormal. Please check whether there are any foreign objects on the heatbed and Z slider. If so, please remove them and try again.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300180000010007": [
+   {
+    "d": "The frequency of the extruder eddy current sensor is too high. The sensor may be damaged, or the nozzle heat sink may be too close to the sensor.",
+    "m": [
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300180000010008": [
+   {
+    "d": "The nozzle is abnormally touching the heatbed. Please check for filament residue on the nozzle or foreign material on the bed surface where the nozzle makes contact",
+    "m": [
+     "A2L",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030018000001000B": [
+   {
+    "d": "Nozzle presence detection failed: nozzle not installed or improperly installed.",
+    "m": [
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030018000001000C": [
+   {
+    "d": "Abnormal signal jump detected in the extruder eddy current sensor, which may be caused by poor contact or a defective sensor.",
+    "m": [
+     "A2L",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030018000001000D": [
+   {
+    "d": "Nozzle clumping detection calibration failed. Excessive force detected on the nozzle. Please ensure the nozzle is installed correctly.",
+    "m": [
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300180000030009": [
+   {
+    "d": "First-time high heatbed temperature printing is detected. To achieve better first-layer printing quality, high-temperature bed calibration is being performed automatically.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300190000010001": [
+   {
+    "d": "The eddy current sensor on Y-axis is not available, the wire should be broken.",
+    "m": [
+     "A1MINI"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300190000020002": [
+   {
+    "d": "The sensitivity of Y-axis eddy current sensor is too low.",
+    "m": [
+     "A1MINI"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03001A0000020001": [
+   {
+    "d": "The nozzle is wrapped in the filament or the build plate is placed incorrectly",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The nozzle is wrapped with filament. Please clean the residual filament from the nozzle.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03001A0000020002": [
+   {
+    "d": "The extrusion force sensor detects that the nozzle is clogged",
+    "m": [
+     "A1",
+     "A1MINI"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03001A0000020003": [
+   {
+    "d": "The nozzle clumping sensor is malfunctioning; Please refer to the Wiki for troubleshooting.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03001B0000010001": [
+   {
+    "d": "The signal of the heatbed acceleration sensor is weak. The sensor may have fallen off or been damaged.",
+    "m": [
+     "A1",
+     "A1MINI"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03001B0000010002": [
+   {
+    "d": "External disturbance was detected on the heatbed acceleration sensor. The sensor signal wire may not be fixed.",
+    "m": [
+     "A1"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03001B0000010003": [
+   {
+    "d": "The heatbed acceleration sensor detected unexpected continuous force. The sensor may be stuck, or the analog front end may be broken.",
+    "m": [
+     "A1"
+    ],
+    "s": "api"
+   }
+  ],
+  "03001C0000010001": [
+   {
+    "d": "The extrusion motor driver is abnormal. The MOSFET may have a short circuit.",
+    "m": [
+     "A2L",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03001D0000010001": [
+   {
+    "d": "The Position Sensor of the Extrusion Motor is Abnormal. The Connection to the Sensor May be Loose",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03001D000001000A": [
+   {
+    "d": "The extrusion motor is overloaded. It may have failed.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03001E0000010001": [
+   {
+    "d": "The left extruder nozzle temperature is abnormal; the heater may have a short circuit.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03001E0000010002": [
+   {
+    "d": "The left extruder nozzle temperature is abnormal; the heater may have an open circuit.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03001E0000010003": [
+   {
+    "d": "The left extruder nozzle temperature is abnormal; the heater is over temperature.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03001E0000010006": [
+   {
+    "d": "The left extruder nozzle temperature is abnormal; the sensor may have a short circuit, please check whether the connector is properly plugged in.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03001E0000010007": [
+   {
+    "d": "The left extruder nozzle temperature is abnormal; the sensor may have an open circuit.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03001E0000010009": [
+   {
+    "d": "The left extruder nozzle temperature control is abnormal; the hot end may not be installed. If you want to heat the hot end without it being installed, please turn on maintenance mode in the settings page.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300200000010001": [
+   {
+    "d": "X-axis homing abnormal: please check if the toolhead is stuck or if the resistance on the X-axis linear rail is too high.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300200000010002": [
+   {
+    "d": "Y-axis homing abnormal: please check if the toolhead is stuck or the Y carriage has too much resistance.",
+    "m": [
+     "P2S"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "Y axis homing abnormal: Please check if the heatbed is stuck or if the motion resistance is too high.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300200000010003": [
+   {
+    "d": "X Axis Homing Abnormal: The Timing Belt May be Loose",
+    "m": [
+     "A2L",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300200000010004": [
+   {
+    "d": "Y axis homing abnormal: the timing belt may be loose.",
+    "m": [
+     "A2L",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300210000010001": [
+   {
+    "d": "Auxiliary extruder motor open circuit, possibly due to a loose connection or motor failure.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300250000010001": [
+   {
+    "d": "Low signal frequency detected on the right extruder eddy current sensor. The nozzle may not be installed, or the nozzle heat sink may be too far away from the sensor.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300250000010002": [
+   {
+    "d": "Low sensitivity detected in the right extruder eddy current sensor. Check the nozzle installation.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300250000010003": [
+   {
+    "d": "Unable to read data from the extruder eddy current sensor; there may be a communication break or sensor damage.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300250000010004": [
+   {
+    "d": "The eddy current sensor signal of the extruder is abnormal. The sensor may be damaged, or the MC-TH communication may be abnormal.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300250000010005": [
+   {
+    "d": "Z axis motor rotation is obstructed; please check if there are foreign objects stuck in the Z slider or Z timing pulley.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300250000010007": [
+   {
+    "d": "High signal frequency detected on the right extruder eddy current sensor. The sensor may be damaged, or the nozzle heat sink may be too close to the sensor.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300250000010008": [
+   {
+    "d": "The right nozzle touches the heating bed abnormally. Please check whether there is filament residue on the nozzle, foreign matter at the point where the nozzle contacts the bed, or severe deformation of the flow blocker.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030025000001000A": [
+   {
+    "d": "Nozzle offset calibration failed. Filament sticks to the nozzle, which may affect print quality. Please clean the nozzle and try again.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030025000001000B": [
+   {
+    "d": "Nozzle presence detection failed: Right extruder nozzle not installed or improperly installed.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030025000001000C": [
+   {
+    "d": "An anomalous jump in the extruder eddy current sensor data has been detected, potentially caused by poor sensor contact or a faulty sensor.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300260000010001": [
+   {
+    "d": "Low signal frequency detected on the left extruder eddy current sensor. The sensor may be installed too far, or the sensor may be loose.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300260000010002": [
+   {
+    "d": "Left extruder eddy current sensor sensitivity is low. Check sensor installation.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300260000010007": [
+   {
+    "d": "High signal frequency detected on the left extruder eddy current sensor. The sensor may be installed too close, or the sensor may be loose.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030026000001000B": [
+   {
+    "d": "Nozzle presence detection failed: Left extruder nozzle not installed or improperly installed.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300270000010001": [
+   {
+    "d": "The nozzle offset calibration sensor frequency is too low. The sensor may be damaged.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300270000010002": [
+   {
+    "d": "Too many attempts at nozzle offset calibration, possibly due to purged filament between the nozzle and the heated base, or incorrect installation of the nozzle. Please inspect and retry.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300270000010004": [
+   {
+    "d": "The signal of the nozzle offset calibration sensor is abnormal. The sensor may be damaged, or the wiring may not be connected properly.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300270000010006": [
+   {
+    "d": "The nozzle offset calibration shows significant deviation, possibly due to incorrect installation of the nozzle or heating base. Please inspect and retry.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300270000010007": [
+   {
+    "d": "The nozzle offset calibration sensor frequency is too high. The sensor may be damaged.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300270000010008": [
+   {
+    "d": "The nozzle offset calibration sensor signal is too weak. It may be that the nozzle is sticky or the nozzle does not move above the sensor during calibration, causing the distance between the nozzle and the sensor to be too far.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300280000010001": [
+   {
+    "d": "The data of the force sensor of the Cutting Module is abnormal. The magnet on the Tool Holder may fall off or the force sensor may be damaged.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300280000010003": [
+   {
+    "d": "Communication failure between cutting module and toolhead during Z-axis homing. Please check if the cutting module signal cable is loose or broken or verify if the force sensor coil is intact.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300280000010004": [
+   {
+    "d": "The force sensor of the Cutting Module is abnormal. The force sensor cable may be disconnected or the force sensor is damaged.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300280000010005": [
+   {
+    "d": "Z-axis homing failed in cutting mode. Please check if there are any foreign objects in the Z-axis slider and Z-axis synchronous pulley.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300280000010007": [
+   {
+    "d": "Communication failure between the Cutting Module and toolhead module. Please check if the Cutting module signal cable is loose or broken. It could also be due to a broken force sensor coil.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300290000010001": [
+   {
+    "d": "Encoder pattern cannot be recognized; possible reasons include: pattern distortion, light overexposure, plate misplacement.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03002B0000020001": [
+   {
+    "d": "Air-Door Calibration Failed. Please Check if There is Any Foreign Object Blocking the Damper",
+    "m": [
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03002D0000010006": [
+   {
+    "d": "Heatbed leveling failed. Please remove any debris from the bed and retry.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "Heatbed leveling failed. Please remove any debris from the bed and retry. If the issue persists, refer to the Wiki for manual bed leveling. If the X-axis rail is visibly tilted, refer to the Wiki for repair.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03002D0000030001": [
+   {
+    "d": "Waiting for the heatbed temperature to become uniform.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03002D0000030009": [
+   {
+    "d": "First-time high-temperature heatbed leveling is in progress.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S",
+     "X2D"
+    ],
+    "s": "translated"
+   }
+  ],
+  "03002E0000030001": [
+   {
+    "d": "The motor noise cancellation data needs to be updated; please recalibrate.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300310000010001": [
+   {
+    "d": "The speed of part cooling fan is too slow or stopped.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300310000020002": [
+   {
+    "d": "The part cooling fan is running slowly. Debris may have built up; please check and clean it.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0300320000010001": [
+   {
+    "d": "The Left Side (Auxiliary Component Cooling-Chamber heating) Fan speed is too slow or stopped. It may be stuck, or the connector may not be plugged in properly.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The Right-Side Fan (Auxiliary Component Cooling/Filtration) is Running Too Slowly or Has Stopped. It May be Obstructed, or the Connector May Not be Properly Plugged in",
+    "m": [
+     "P2S"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The Auxiliary Part Cooling Fan speed is too slow or stopped. It may be stuck, or the connector may not be plugged in properly.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300320000010002": [
+   {
+    "d": "The Right Side (Auxiliary Component Cooling-Filtration) Fan Speed is Slow. It May be Stuck and Need Cleaning",
+    "m": [
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300350000010001": [
+   {
+    "d": "The MC module cooling fan speed is too slow or stopped. It may be stuck, or the connector may not be plugged in properly.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300350000020002": [
+   {
+    "d": "The MC module cooling fan is running slowly. Debris may have built up; please check and clean it.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0300360000010001": [
+   {
+    "d": "Chamber heat circulation fan speed is too low or stopped. It may be stuck or the connector may not be plugged in properly.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03003A0000010001": [
+   {
+    "d": "The Left Side Auxiliary Component Cooling Fan speed is slow. It may be stuck and need cleaning.",
+    "m": [
+     "P2S"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The Right Side (Auxiliary Component Cooling-Filtration) Fan speed is too slow or stopped. It may be stuck, or the connector may not be plugged in properly.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "03003A0000020002": [
+   {
+    "d": "The left side auxiliary part cooling fan is running slowly. Debris may have built up; please check and clean it.",
+    "m": [
+     "P2S"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0300400000020001": [
+   {
+    "d": "Data transmission over the serial port is abnormal; the software system may be faulty.",
+    "m": [
+     "A1MINI",
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300410000010001": [
+   {
+    "d": "The system voltage is unstable; triggering the power failure protection function.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300900000010001": [
+   {
+    "d": "Chamber heating failed. The chamber heater may be failing to blow hot air.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300900000010002": [
+   {
+    "d": "Chamber heating failed. Possible causes: the chamber is not fully enclosed, ambient temperature is too low, or the power supply heat dissipation vent is blocked.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300900000010003": [
+   {
+    "d": "Chamber heating failed. The power supply temperature may be too high.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "0300900000010004": [
+   {
+    "d": "Chamber heating failed. The speed of the heating fan is too low.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300900000010005": [
+   {
+    "d": "Chamber heating failed. The thermal resistance is too high.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300900000010010": [
+   {
+    "d": "The communication of chamber temperature controller is abnormal.",
+    "m": [
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300910000010001": [
+   {
+    "d": "The temperature of chamber heater 1 is abnormal. The heater may have a short circuit.",
+    "m": [
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300910000010002": [
+   {
+    "d": "The temperature of chamber heater 1 is abnormal. The heater may have an open circuit or the thermal fuse may have taken effect.",
+    "m": [
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300910000010003": [
+   {
+    "d": "The chamber heater temperature control is abnormal, the heater is over-temperature.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300910000010006": [
+   {
+    "d": "The temperature of chamber heater 1 is abnormal. The sensor may have a short circuit.",
+    "m": [
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300910000010007": [
+   {
+    "d": "The temperature of chamber heater 1 is abnormal. The sensor may have an open circuit.",
+    "m": [
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300910000010008": [
+   {
+    "d": "The chamber heater control is abnormal.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030091000001000A": [
+   {
+    "d": "The temperature of chamber heater 1 is abnormal. The AC board may be broken.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030091000001000C": [
+   {
+    "d": "The chamber heater 1 works at full load for a long time. Temperature control system may be abnormal.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030091000001000E": [
+   {
+    "d": "Power supply voltage mismatch with the machine detected; Chamber Heater 1 has been disabled.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300920000010002": [
+   {
+    "d": "The chamber heater temperature control is abnormal. The heater may have an open circuit, or the thermal fuse may have blown.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0300930000010001": [
+   {
+    "d": "The chamber temperature sensor at heater is short circuited",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300930000010002": [
+   {
+    "d": "Chamber temperature is abnormal. The chamber heater's temperature sensor may have an open circuit.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300930000010003": [
+   {
+    "d": "Chamber temperature is abnormal. The chamber heater's temperature sensor at the air outlet may have a short circuit.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300930000010004": [
+   {
+    "d": "Chamber temperature is abnormal. The chamber heater's temperature sensor at the air outlet may have an open circuit.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300930000010005": [
+   {
+    "d": "Chamber temperature is abnormal. The chamber heater's temperature sensor at the air inlet may have a short circuit.",
+    "m": [
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300930000010006": [
+   {
+    "d": "Chamber temperature is abnormal. The chamber heater's temperature sensor at the air inlet may have an open circuit.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300930000010007": [
+   {
+    "d": "Chamber temperature is abnormal. The temperature sensor at the power supply may have a short circuit.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300930000010008": [
+   {
+    "d": "Chamber temperature is abnormal. The temperature sensor at power supply may have an open circuit.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300940000020003": [
+   {
+    "d": "Chamber failed to reach the desired temperature. The machine will stop waiting for the chamber temperature.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300940000030001": [
+   {
+    "d": "Chamber cooling may be too slow. You can open the chamber to help cooling if the gas in chamber is non-toxic.",
+    "m": [
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300950000010003": [
+   {
+    "d": "Laser Module Overheating",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300950000010005": [
+   {
+    "d": "Laser Module Communication Disconnected, Please Check the Connector",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300950000010006": [
+   {
+    "d": "Laser Module not detected: the module may have fallen off, or the quick-release lever may not be locked.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "030095000001000A": [
+   {
+    "d": "The ambient temperature sensor at the bottom of the laser module is abnormal; the sensor has an open circuit.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300960000010001": [
+   {
+    "d": "The front door seems to be open; the task has been paused.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300960000010002": [
+   {
+    "d": "The front door Hall sensor (Upper) is abnormal; please check whether the connection wire is loose.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300960000010003": [
+   {
+    "d": "The front door Hall sensor (Lower) is abnormal; please check whether the connection wire is loose.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0300970000010001": [
+   {
+    "d": "The top cover seems to be open; the task has been paused",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300970000010002": [
+   {
+    "d": "The top cover Hall sensor (Front Right) is abnormal; please check whether the connection wire is loose.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300970000010003": [
+   {
+    "d": "The top cover Hall sensor (Rear Left) is abnormal; please check whether the connection wire is loose.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0300970000010004": [
+   {
+    "d": "The Top Laser Protection Plate is not detected. Please install it according to the Wiki and re-initiate the task.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300980000010002": [
+   {
+    "d": "The left side window Hall sensor (Upper) is abnormal; please check whether the connection wire is loose.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300980000010003": [
+   {
+    "d": "The left side window Hall sensor (Lower) is abnormal; please check whether the connection wire is loose.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0300990000010002": [
+   {
+    "d": "The right side window Hall sensor (Lower) is abnormal; please check whether the connection wire is loose.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300990000010003": [
+   {
+    "d": "The right side window Hall sensor (Upper) is abnormal; please check whether the connection wire is loose.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "translated"
+   }
+  ],
+  "03009D0000020001": [
+   {
+    "d": "HMS-0300-9D00-0002-0001: Engraving Laser Focal XY Calibration Failed. Please clean the laser homing platform thoroughly, then re-perform the laser module mounting calibration before retrying.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300A10000010001": [
+   {
+    "d": "Chamber temperature is too high. Please open the top cover and front door to cool down, or lower the ambient temperature.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The ambient temperature is too high. Please lower it before printing to avoid nozzle clogging.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300A10000020003": [
+   {
+    "d": "The extruder temperature sensor is damaged. Please replace the temperature sensor.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300A20000010001": [
+   {
+    "d": "MC module temperature is too high, possibly because of high chamber temperature of the printer. You can try lowering the environmental temperature before use.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300A60000010001": [
+   {
+    "d": "The Toolhead Enhanced Cooling Fan is not properly installed; it may not be securely fastened or may have fallen off.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300A60000010002": [
+   {
+    "d": "The Toolhead Enhanced Cooling Fan has lost communication; please check the connector.",
+    "m": [
+     "H2C",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300A80000010001": [
+   {
+    "d": "AMS power supply abnormality, possibly due to AMS damage or a short circuit in the AMS interface, or too many AMS connections. Please check if it is correctly connected.",
+    "m": [
+     "A2L",
+     "P2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300AB0000010001": [
+   {
+    "d": "The right Hotend Heatsink temperature is too high, which may cause a hotend clog. Please open the printer’s top cover and front door to reduce the chamber temperature, or lower the ambient temperature.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300AB0000020002": [
+   {
+    "d": "The right Hotend Heatsink temperature is high, which may cause a hotend clog. Please open the printer’s top cover and front door to reduce the chamber temperature, or lower the ambient temperature.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300AB0000020003": [
+   {
+    "d": "The right Hotend Heatsink temperature sensor is abnormal. To prevent a hotend clog, the cooling fan will remain at high speed. Please check the temperature sensor for faults when the printer is idle.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300B80000010002": [
+   {
+    "d": "Toolhead communication lost and abnormal current detected. The toolhead power has been cut off. Please restart the device. If the issue persists, contact customer support.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300C00000010001": [
+   {
+    "d": "Active Chamber Exhaust malfunction: it may be stuck.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The chamber temperature switching flap operation failed. It may get stuck.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300C00000010002": [
+   {
+    "d": "Filter Switch Flap malfunction: it may be stuck.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300C00000010003": [
+   {
+    "d": "Automatic Top Vent malfunction: it may be stuck.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300C10000010001": [
+   {
+    "d": "Adaptive Airflow System can't activate cooling mode; please check the air door status.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300C10000010002": [
+   {
+    "d": "The Airflow System failed to enter chamber temperature holding mode; please check the air door status.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0300C10000010003": [
+   {
+    "d": "The Airflow System failed to enter laser mode; please check the air door status.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0300C20000010001": [
+   {
+    "d": "Hall sensor of Active Chamber Exhaust malfunction: please check if the wiring is loose.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300C20000010002": [
+   {
+    "d": "Hall sensor of Filter Switch Flap malfunction: please check if the wiring is loose.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300C30000010001": [
+   {
+    "d": "Current sensor of Active Chamber Exhaust malfunction: this may be due to an open circuit or a hardware sampling circuit fault.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The current sensor for the chamber temperature switching flap is abnormal, which may be due to a loose flap wiring harness or a fault in the hardware sampling circuit.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300C30000010002": [
+   {
+    "d": "Current sensor of Filter Switch Flap malfunction: this may be due to an open circuit or a hardware sampling circuit fault.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300D00000010001": [
+   {
+    "d": "The cutting module base has fallen off; please reinstall it.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300D00000010003": [
+   {
+    "d": "The cutting module cable has come loose; please check the cable connection.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300DA0000020001": [
+   {
+    "d": "Laser module detected. Please remove the hotend from the hotend rack to prevent laser processing debris from affecting printing performance.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300E00000010001": [
+   {
+    "d": "Hotend holder motor is disconnected or has an open-circuit fault. Please check the motor’s flat cable connection",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300E00000010002": [
+   {
+    "d": "Inter-phase short circuit on hotend rack motor. If restarting doesn’t resolve the issue, please contact support.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300E00000010003": [
+   {
+    "d": "Hotend rack motor has abnormal or unbalanced three-phase resistance. If restarting doesn’t help, please contact support",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300E00000010004": [
+   {
+    "d": "The Hotend Rack Motor is stalled. Check for any foreign objects blocking movement or possible collisions with the Toolhead.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300E10000010001": [
+   {
+    "d": "Current sensor fault on hotend rack motor. This may be caused by a sampling circuit failure. If restarting the printer doesn’t resolve the issue, please contact customer support.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300E20000020001": [
+   {
+    "d": "Abnormal communication detected between the Hotend Rack Motor and the position sensor.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300E30000010001": [
+   {
+    "d": "Induction Hotend Rack Motor Driver Board MOS short circuit. If restarting the printer does not restore function, please contact customer support.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0300E30000010002": [
+   {
+    "d": "MC communication with hotend rack motor driver failed. Please check if the connection cable is properly plugged in.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500010000020001": [
+   {
+    "d": "The media pipeline is malfunctioning.",
+    "m": [
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500010000020002": [
+   {
+    "d": "Live View camera is not connected. Please check the hardware and cable connections.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "api"
+   }
+  ],
+  "0500010000020003": [
+   {
+    "d": "USB camera is malfunctioning.",
+    "m": [
+     "A1MINI",
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500010000030005": [
+   {
+    "d": "Error in SD Card.",
+    "m": [
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500010000030006": [
+   {
+    "d": "The USB drive is not formatted; please format the USB drive.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "Unformatted SD Card.",
+    "m": [
+     "A1MINI",
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500020000020001": [
+   {
+    "d": "Failed to connect internet, please check the network connection.",
+    "m": [
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500020000020002": [
+   {
+    "d": "Device login failed; please check your account information.",
+    "m": [
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "0500020000020003": [
+   {
+    "d": "Failed to connect to the internet; please check the network connection.",
+    "m": [
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "api"
+   }
+  ],
+  "0500020000020004": [
+   {
+    "d": "Unauthorized user.",
+    "m": [
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500020000020005": [
+   {
+    "d": "Failed to connect to the internet; please check the network connection.",
+    "m": [
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "api"
+   }
+  ],
+  "0500020000020006": [
+   {
+    "d": "Liveview service is malfunctioning.",
+    "m": [
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500020000020008": [
+   {
+    "d": "HMS_0500-0200-0002-0008 Time synchronization failed.",
+    "m": [
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500030000010001": [
+   {
+    "d": "The MC module is malfunctioning. Please restart the device.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500030000010002": [
+   {
+    "d": "The toolhead is malfunctioning. Please restart the device.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500030000010003": [
+   {
+    "d": "The AMS module is malfunctioning. Please restart the device.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500030000010004": [
+   {
+    "d": "The Filament Buffer module is malfunctioning. Please restart the device.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500030000010007": [
+   {
+    "d": "Toolhead Expansion Module Malfunctions, Please Power Off to Inspect Wiring Connections and Restart the Device",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "050003000001000A": [
+   {
+    "d": "System state is abnormal. Please restore factory settings.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "050003000001000B": [
+   {
+    "d": "The screen is malfunctioning.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "050003000001000C": [
+   {
+    "d": "The MC motor controller module is malfunctioning. Please power off, check the connection, and restart the device.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "050003000001000D": [
+   {
+    "d": "The induction hotend rack is malfunctioning. Please power off, check the connection, and restart the device.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500030000010021": [
+   {
+    "d": "Hardware incompatible, please check the laser.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "050003000002000C": [
+   {
+    "d": "Wireless hardware error: please turn off/on WiFi or restart the device.",
+    "m": [
+     "A1MINI",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "050003000002000E": [
+   {
+    "d": "Some modules are incompatible with the printer's firmware version, which may affect use. Please go to the \"Firmware\" page to update after connected to the internet, or you may update offline according to wiki.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500030000020020": [
+   {
+    "d": "USB flash drive capacity is insufficient to cache print files.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000010001": [
+   {
+    "d": "Failed to download print job. Please check your network connection.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000010002": [
+   {
+    "d": "Failed to report print state. Please check your network connection.",
+    "m": [
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000010003": [
+   {
+    "d": "The content of print file is unreadable. Please resend the print job.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000010004": [
+   {
+    "d": "The print file is unauthorized.",
+    "m": [
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000010006": [
+   {
+    "d": "Failed to resume previous print.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000010025": [
+   {
+    "d": "Abnormal connection between AMS/AMS Lite and the device is detected. Please refer to the Wiki for adjustment.",
+    "m": [
+     "A1",
+     "A1MINI"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000010044": [
+   {
+    "d": "The firmware of AMS A does not match the printer. Please upgrade it on the \"Firmware\" page.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "0500040000010046": [
+   {
+    "d": "The laser module firmware does not match the printer. Please upgrade it on the \"Firmware\" page.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0500040000010047": [
+   {
+    "d": "The air pump firmware does not match the printer. Please upgrade it on the \"Firmware\" page.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0500040000010048": [
+   {
+    "d": "The cutting module firmware does not match the printer. Please upgrade it on the \"Firmware\" page.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0500040000010051": [
+   {
+    "d": "Emergency Stop Button is not in the right position. Please follow the Wiki to install it.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000010052": [
+   {
+    "d": "Safety Key is not inserted. Please follow the Wiki to install it.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000020007": [
+   {
+    "d": "The bed temperature exceeds the filament's vitrification temperature, which may cause a nozzle clog.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000020030": [
+   {
+    "d": "The BirdsEye Camera is not installed. Please power off printer and then install the camera.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000020031": [
+   {
+    "d": "Before using a Laser/Cutting Module, the pose of the BirdsEye Camera needs to be determined. Please complete the setup to calibrate the camera.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000020032": [
+   {
+    "d": "Please slide in Laser Module and lock the quick-release lever.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000020033": [
+   {
+    "d": "Please plug in the module connector.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000020034": [
+   {
+    "d": "Laser module detected for the first time. Complete the setup (~4 min) before use for precise cutting and engraving. Also, ensure the H2.0 screw at the back securing the air pump is removed.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000020035": [
+   {
+    "d": "The Laser Module needs calibration to get the focus position. Please perform mounting calibration before use. (about 2 minutes)",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000020037": [
+   {
+    "d": "The cutting module requires calibration to obtain an accurate blade tip position. Please perform the mounting calibration before use. It will take approximately 2-4 minutes.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000020038": [
+   {
+    "d": "Please slide in cutting module and fasten the quick release lever. If already installed, the module might not be properly aligned. Please try reinstalling it.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000020041": [
+   {
+    "d": "The laser module has been used for a long time. Please clean it promptly to avoid affecting laser processing.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000020042": [
+   {
+    "d": "The live camera is dirty or obscured. Please clean it and continue.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500040000020043": [
+   {
+    "d": "The toolhead camera is dirty or blocked. Please clean it before continuing.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0500040000020050": [
+   {
+    "d": "Laser Safety Window is not installed.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500050000010007": [
+   {
+    "d": "MQTT Command verification failed, please update Studio or Handy.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "050005000001000E": [
+   {
+    "d": "The laser module firmware does not match the printer. Please upgrade it on the \"Firmware\" page.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "translated"
+   }
+  ],
+  "050005000001000F": [
+   {
+    "d": "The accessory firmware does not match the printer. Please upgrade it on the \"Firmware\" page.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "0500050000010010": [
+   {
+    "d": "The firmware of AMS A does not match the printer. Please upgrade it on the \"Firmware\" page.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "0500050000010011": [
+   {
+    "d": "The air pump firmware does not match the printer. Please upgrade it on the \"Firmware\" page.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0500050000010012": [
+   {
+    "d": "The cutting module firmware does not match the printer. Please upgrade it on the \"Firmware\" page.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0500050000010014": [
+   {
+    "d": "AMS A certification failed. Please reconnect the cable or restart the printer.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500050000010015": [
+   {
+    "d": "Air Pump certification failed. Please reconnect the cable or restart the printer.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "050005000001001A": [
+   {
+    "d": "Filament Track Switch certification failed. Please reconnect the cable or restart the printer.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500050000010020": [
+   {
+    "d": "Hotend 1 authentication failed. Please switch the hotend or restart the printer.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500060000020001": [
+   {
+    "d": "The Toolhead Camera is not in place; please check the hardware connection.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500060000020002": [
+   {
+    "d": "The Nozzle Camera is not in place; please check the hardware connection.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500060000020004": [
+   {
+    "d": "The Live View camera is not in place; please check the hardware connection.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500060000020031": [
+   {
+    "d": "Toolhead camera binding failed. Please check the hardware and cable connections.",
+    "m": [
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500060000020032": [
+   {
+    "d": "Nozzle Camera binding failed. Please check the hardware and cable connections.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0500060000020034": [
+   {
+    "d": "Live View camera is not connected. Please check the hardware and cable connections.",
+    "m": [
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0501040000030002": [
+   {
+    "d": "Threaded rods need lubrication now.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0501040000030005": [
+   {
+    "d": "Please clean and lubricate the Induction Hotend Latch and the linear rods of the Hotend Change System.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0501040000030006": [
+   {
+    "d": "The Induction Hotend Latch may be worn. To ensure proper induction hotend switching, please replace the Induction Hotend Latch and clean the rods of Induction Hotend Rack.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0580040000010045": [
+   {
+    "d": "The firmware of AMS-HT A does not match the printer. Please upgrade it on the \"Firmware\" page.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "0580050000010010": [
+   {
+    "d": "The firmware of AMS-HT A does not match the printer. Please upgrade it on the \"Firmware\" page.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "0580050000010017": [
+   {
+    "d": "AMS-HT A certification failed. Please reconnect the cable or restart the printer.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700010000010001": [
+   {
+    "d": "The AMS assist motor has slipped.The extrusion wheel may be worn down,or the filament may be too thin.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700010000010003": [
+   {
+    "d": "The AMS assist motor torque control is malfunctioning.The current sensor may be faulty.",
+    "m": [
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700010000010004": [
+   {
+    "d": "The AMS assist motor speed control is malfunctioning.The speed sensor may be faulty.",
+    "m": [
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700010000010005": [
+   {
+    "d": "AMS A The current sensor of assist motor may be faulty.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700010000020002": [
+   {
+    "d": "The AMS assist motor is overloaded,The filament may be tangled or stuck.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700010000020006": [
+   {
+    "d": "AMS A The assist motor three-phase wires are not connected. The assist motor connector may have poor contact.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700010000020007": [
+   {
+    "d": "AMS A The assist motor encoder wires are not connected. The assist motor connector may have poor contact.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700010000020008": [
+   {
+    "d": "AMS A The assist motor phase winding has an open circuit. The assist motor may be faulty.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700010000020009": [
+   {
+    "d": "AMS A The assist motor has unbalanced tree-phase resistaance. The assist motor may be faulty.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700010000020010": [
+   {
+    "d": "AMS A The assist motor resistance is abnormal. The assist motor may be faulty.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700010000020011": [
+   {
+    "d": "AMS A The motor assist parameter is lost. Please pull out the filament from the filament hub and then restart the AMS.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700020000010001": [
+   {
+    "d": "AMS filament speed and length error.The filament odometry may be faulty.",
+    "m": [
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700020000020002": [
+   {
+    "d": "AMS A The odometer has no signal. The odometer connector may have poor contact.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700020000020003": [
+   {
+    "d": "AMS A filament odometer speed signal is abnormal. If you hear unusual noises or the filament fails to unload from the Auxiliary Extruder, please replace the filament odometer.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700100000010001": [
+   {
+    "d": "The AMS slot1 motor has slipped. The extrusion wheel may be malfunctioning,or the filament may be too thin.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700100000010003": [
+   {
+    "d": "The AMS slot1 motor torque control is malfunctioning.The current sensor may be faulty.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700100000020002": [
+   {
+    "d": "The AMS slot1 motor is overloaded.The filament may be tangled or stuck.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700100000020004": [
+   {
+    "d": "AMS A The brushed motor 1 has no signal, which may be due to poor contact in the motor connector or a motor fault.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000010081": [
+   {
+    "d": "Failed to read the filament information from AMS A slot 1. The AMS main board may be malfunctioning.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000010083": [
+   {
+    "d": "Failed to read the filament information from AMS A slot 1. The RFID tag may be damaged",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000010084": [
+   {
+    "d": "Failed to read the filament information from AMS A slot 1. The RFID tag may be damaged or positioned at the edge of the RFID detection device. Please remove 5cm filament and try again.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000010086": [
+   {
+    "d": "Failed to read the filament information from AMS A slot 1. The RFID tag cannot rotate due to a jam during the filament loading or unloading. Please pull out the filament and try again.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020001": [
+   {
+    "d": "AMS1 Slot1 filament has run out.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020002": [
+   {
+    "d": "The AMS A slot 1 is empty.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020003": [
+   {
+    "d": "The AMS A Slot 1 filament may be broken in AMS.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020004": [
+   {
+    "d": "The AMS slot1's filament may be broken in the toolhead.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020005": [
+   {
+    "d": "AMS1 Slot1 filament has run out, and purging the old filament went abnormally; please check whether the filament is stuck in the tool head.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020006": [
+   {
+    "d": "AMS A has detected a breakage of the PTFE tube during filament loading. Please check whether the PTFE tubes inside and outside the AMS have fallen off or been damaged.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020007": [
+   {
+    "d": "AMS A Slot 1 feed-out Hall sensor is disconnected. The connector may have poor contact.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020008": [
+   {
+    "d": "AMS A Slot 1 feed-in Hall sensor is disconnected, which may be due to poor connector contact.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020009": [
+   {
+    "d": "Failed to extrude AMS A slot 1 filament; the extruder may be clogged or the filament may be too thin, causing the extruder to slip.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "070020000002000A": [
+   {
+    "d": "Failed to adjust the filament position of AMS A Slot 1. The filament or buffer may be stuck.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020010": [
+   {
+    "d": "AMS A slot 1 feeds filament out of AMS timeout.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020011": [
+   {
+    "d": "AMS A Slot 1 filament retraction timed out.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020012": [
+   {
+    "d": "AMS  A Slot 1 feeder motor overloaded, unable to rotate the spool.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020013": [
+   {
+    "d": "AMS A Slot 1 feeder motor no signal - possible poor motor connector contact or motor failure.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020014": [
+   {
+    "d": "AMS A Slot 1 odometer no signal - possible poor odometer connector contact or odometer failure.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020015": [
+   {
+    "d": "AMS A slot 1 filament status is abnormal, which may be due to a filament breakage inside the AMS.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020016": [
+   {
+    "d": "AMS A Slot 1 assist motor has slipped. Please pull out the filament, cut off the worn part, and then try again.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020017": [
+   {
+    "d": "AMS A Slot 1 assist motor is stalled，due to excessive resistance in the tube between AMS and the printer.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020018": [
+   {
+    "d": "AMS A Slot 1 assist motor is stalled，due to excessive resistance in the tube near AMS.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020019": [
+   {
+    "d": "AMS A Slot 1 assist motor is stalled，due to excessive resistance in the tube between AMS and the filament buffer.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020021": [
+   {
+    "d": "AMS A Slot 1 assist motor is stalled，due to excessive resistance in the tube between the filament buffer and the toolhead.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020022": [
+   {
+    "d": "AMS A Slot 1 assist motor is stalled，due to excessive resistance in the tube between the filament buffer and the toolhead.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020023": [
+   {
+    "d": "AMS A slot 1 the tube inside the AMS is broken, or feed-out hall sensor is faulty and cannot detect the filament.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020024": [
+   {
+    "d": "AMS A Slot 1 failed to rotate the filament spool when pulling filament back to AMS.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020025": [
+   {
+    "d": "AMS A Slot 1 feed resistance is too high. Please reduce the feed resistance, decrease the rotation resistance of the spool, and avoid having the filament tube too long and excessively bent.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020026": [
+   {
+    "d": "AMS A slot 1 assist motor overloaded. Excessive resistance in the filament tube between the AMS and the filament track switch.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000020027": [
+   {
+    "d": "AMS A slot 1 assist motor overloaded. Excessive resistance in the filament tube between the filament track switch and the filament buffer.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000030001": [
+   {
+    "d": "AMS1 Slot1 filament has run out. Please wait while old filament is purged.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700200000030002": [
+   {
+    "d": "AMS1 Slot1 filament has run out and automatically switched to the slot with the same filament.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700250000020001": [
+   {
+    "d": "Detected AMS using printer power for drying during loading/printing. For better drying performance, please connect a power adapter.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700260000020001": [
+   {
+    "d": "The induction hotend is heating up, and the drying power of %0 %1 will be reduced. Please connect the power adapter or wait until the hotend finishes heating.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700300000010001": [
+   {
+    "d": "The AMS A RFID 1 board has an error.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700350000010002": [
+   {
+    "d": "AMS A The humidity sensor is disconnected, which may be due to poor connector contact.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700400000020001": [
+   {
+    "d": "AMS A Filament buffer position signal lost: the cable or position sensor may be malfunctioning.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700400000020002": [
+   {
+    "d": "The filament buffer position signal error,the position sensor may be malfunctioning.",
+    "m": [
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700400000020003": [
+   {
+    "d": "The AMS Hub communication is abnormal,the cable may be not well connected.",
+    "m": [
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700400000020004": [
+   {
+    "d": "The filament buffer signal is abnormal,the spring may be stuck or the filament may be tangle.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700450000020001": [
+   {
+    "d": "The filament cutter sensor is malfunctioning.The sensor may be disconected or damaged.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700450000020002": [
+   {
+    "d": "The filament cutter's cutting distance is too large.The XY motor may lose steps.",
+    "m": [
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700450000020003": [
+   {
+    "d": "The filament cutter handle has not been released. The handle or blade may be jammed, or there could be an issue with the filament sensor connection.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700500000020001": [
+   {
+    "d": "AMS1 communication is abnormal; please check the connection cable.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700510000030001": [
+   {
+    "d": "AMS is disabled; please load filament from spool holder.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700550000010002": [
+   {
+    "d": "Incorrect connection order of PTFE tubes between the toolhead and the buffer. Please ensure: the upper part of the buffer is connected to the right extruder, and the lower part is connected to the left extruder.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The PTFE tube connection between the toolhead and buffer is incorrect. Please ensure the upper port of the buffer is connected to the left extruder, and the lower port is connected to the right extruder.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700550000010003": [
+   {
+    "d": "AMS A was detected offline during the AMS initialization process.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700550000010004": [
+   {
+    "d": "A binding error occurred between AMS A and the extruder. Please perform AMS initialization again.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700550000010005": [
+   {
+    "d": "Please connect the PTFE tube along the correct path, from the AMS through the buffer and then to the toolhead. Bypassing the buffer may cause the AMS to fail to feed filament properly.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700550000020001": [
+   {
+    "d": "New AMS detected. Initialize and check which extruder side it's connected to.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700600000020001": [
+   {
+    "d": "The AMS1 slot1 is overloaded. The filament may be tangled or the spool may be stuck.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700700000020001": [
+   {
+    "d": "Failed to pull out the filament from the extruder. Please check whether the extruder is clogged or whether the filament is broken inside the extruder.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700700000020002": [
+   {
+    "d": "Failed to feed the filament into the toolhead. Possible cause: filament or spool stuck.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "api"
+   }
+  ],
+  "0700700000020003": [
+   {
+    "d": "Failed to extrude the filament. Possible cause: extruder or nozzle clog.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "api"
+   }
+  ],
+  "0700700000020004": [
+   {
+    "d": "Failed to pull back the AMS A Slot 1 filament from the Toolhead. Possible cause: filament or spool stuck.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "Failed to pull back the filament from the toolhead to AMS. Please check whether the filament or the spool is stuck.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700700000020005": [
+   {
+    "d": "Failed to feed the filament outside the AMS. Please clip the end of the filament flat and check to see if the spool is stuck.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "0700700000020006": [
+   {
+    "d": "Timeout purging old filament. Please check if the filament is stuck or the extruder/nozzle is clogged.",
+    "m": [
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700700000020007": [
+   {
+    "d": "AMS filament ran out. Please put a new filament into AMS and click the \"Retry\" button.",
+    "m": [
+     "P1P",
+     "P1S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700700000020008": [
+   {
+    "d": "Failed to get AMS mapping table; please click \"Resume\" to retry.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "070070000002000A": [
+   {
+    "d": "Failed to retrieve the material–hotend mapping information from the sliced file.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700740000010001": [
+   {
+    "d": "The Filament Track Switch is offline. Please check for disconnected cables or loose connectors.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700740000020006": [
+   {
+    "d": "The Filament Track Switch was connected during AMS initialization. Please unplug the Filament Track Switch and reconnect it after AMS initialization is complete.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700740000020007": [
+   {
+    "d": "The Filament Track Switch was connected during printing. Please unplug the Filament Track Switch and reconnect it after the print is finished.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700750000010005": [
+   {
+    "d": "The Filament Track Switch was connected while filament is still loaded in the extruder. Please unplug the Filament Track Switch, unload the filament, then reconnect the Filament Track Switch and try again.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700750000010008": [
+   {
+    "d": "Filament was detected in the extruder when the Filament Track Switch was unplugged. Please reconnect the Filament Track Switch, unload the filament, then unplug the Filament Track Switch.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700800000010001": [
+   {
+    "d": "AMS A Heater 1 Current Sensor Abnormal.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700800000010002": [
+   {
+    "d": "AMS A Heater 1 is offline, possibly due to a loose connector.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700800000010003": [
+   {
+    "d": "AMS Heater A short circuit, possibly caused by wiring short or heater damage.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700800000010004": [
+   {
+    "d": "AMS A heater 1 abnormal heating.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700860000010004": [
+   {
+    "d": "AMS A is not correctly bound to the filament track switch. Please run AMS setup again.",
+    "m": [
+     "H2C",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700860000020002": [
+   {
+    "d": "The AMS has been detected. Please set it up to confirm which side of the Filament Track Switch inlet the AMS is connected to.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700870000020001": [
+   {
+    "d": "A filament jam or component damage may have occurred at the Filament Track Switch.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700870000020003": [
+   {
+    "d": "Filament is blocked at the inlet of the filament track switch.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700870000020009": [
+   {
+    "d": "AMS setup error: Filament track switch detected online, but filament did not pass through. Please check the PTFE tube connection between the AMS and the filament track switch; disconnect the switch if not in use.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700880000020003": [
+   {
+    "d": "Abnormal movement detected on the IN-A side of the Filament Track Switch. This may be caused by debris obstruction, a loose cable, or a damaged coil. Please refer to the Wiki for troubleshooting.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700890000020004": [
+   {
+    "d": "Abnormal switching detection sensor detected on the IN-A side of the Filament Track Switch. The cable on this side may be loose. Please reconnect or replace the sensor and try again.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07008A0000020005": [
+   {
+    "d": "Abnormal switching detection sensor detected on the IN-B side of the Filament Track Switch. The cable on this side may be loose. Please reconnect or replace the sensor and try again.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07008B0000020006": [
+   {
+    "d": "Abnormal feed detection sensor detected on the IN-A side of the Filament Track Switch. The cable on this side may be loose. Please reconnect or replace the sensor and try again.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07008C0000020007": [
+   {
+    "d": "Abnormal feed detection sensor detected on the IN-B side of the Filament Track Switch. The cable on this side may be loose. Please reconnect or replace the sensor and try again.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07008D0000020008": [
+   {
+    "d": "Abnormal coil resistance detected on the IN-A side of the Filament Track Switch. Please refer to the Wiki to replace the coil assembly.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07008E0000020009": [
+   {
+    "d": "Abnormal coil resistance detected on the IN-B side of the Filament Track Switch. Please refer to the Wiki to replace the coil assembly.",
+    "m": [
+     "X2D"
+    ],
+    "s": "translated"
+   }
+  ],
+  "07008F0000020002": [
+   {
+    "d": "Abnormal movement detected on the IN-B side of the Filament Track Switch. This may be caused by debris obstruction, a loose cable, or a damaged coil. Please refer to the Wiki for troubleshooting.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700900000010003": [
+   {
+    "d": "AMS A The exhaust valve 1 is not connected, which may be due to poor connector contact.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700900000010004": [
+   {
+    "d": "The current sensor of AMS A exhaust valve 1 is abnormal; please get in touch with customer support to replace the AMS mainboard",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700900000020001": [
+   {
+    "d": "AMS A The operation of the exhaust valve 1 is abnormal, which may be due to excessive resistance.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700920000010001": [
+   {
+    "d": "AMS A The cooling fan of heater 1 is blocked, which may be due to the fan being stuck.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700920000020002": [
+   {
+    "d": "AMS A Heater 1 cooling fan speed is low, possibly due to excessive resistance.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700920000020003": [
+   {
+    "d": "The AMS A heater 1 cooling fan cannot start because the power adapter is not connected.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700940000010001": [
+   {
+    "d": "AMS A The temperature sensor of heater 1 is malfunctioning, which may be due to poor connector contact.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700960000010001": [
+   {
+    "d": "AMS A drying may be experiencing thermal runaway. Please power off the AMS immediately.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700960000010003": [
+   {
+    "d": "AMS A Unable to start drying; please pull out the filament from filament hub and try again.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700960000020002": [
+   {
+    "d": "The ambient temperature of the AMS is too low, which may affect the drying performance.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700970000030001": [
+   {
+    "d": "Chamber temperature of AMS A is relatively high; auxiliary feeding or RFID reading is not available currently.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700980000020001": [
+   {
+    "d": "AMS A The power adapter voltage is too low, which may result in insufficient drying temperature. Please replace the power adapter.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0700F00000020001": [
+   {
+    "d": "Filament and hotend matching failed. Please check if the hotend at Slot 1 of the hotend rack is installed correctly.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE200000020001": [
+   {
+    "d": "External filament of left/right extruder has run out; please load a new filament.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE200000020002": [
+   {
+    "d": "No filament was detected in the extruder from the external spool; please load the new filament.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE200000020004": [
+   {
+    "d": "Please pull the external filament from the left extruder.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE450000020001": [
+   {
+    "d": "The left filament cutter sensor is malfunctioning; please check whether the connector is properly plugged in.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "translated"
+   }
+  ],
+  "07FE450000020002": [
+   {
+    "d": "The filament cutter's cutting distance is too large. Possible causes include the filament cutter stopper skipping teeth, motor losing steps, or the XY axis not being homed.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE450000020003": [
+   {
+    "d": "The filament cutter handle has not been released. The handle or blade may be jammed, or there could be an issue with the filament sensor connection.",
+    "m": [
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE600000020001": [
+   {
+    "d": "External spool connected to left extruder may be tangled or jammed.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE700000020003": [
+   {
+    "d": "Filament runout detected in the extruder. Please load new filament.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE800000010001": [
+   {
+    "d": "The toolhead lift motor is working abnormally. Please check whether the connecting cable is loose.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "translated"
+   },
+   {
+    "d": "Extruder switching abnormal. Please check whether the flow blocker is stuck or if filament is jammed inside the toolhead.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE800000010002": [
+   {
+    "d": "The Toolhead Lifting Motor position hall sensor has an open circuit; please check whether the connecting cable is loose.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The Hall sensor for detecting the extruder switching angle is open-circuited; please check if the hall sensor is malfunctioning.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE800000010003": [
+   {
+    "d": "The hall signal of the Toolhead Lifting Motor is abnormal, possibly due to internal communication failure in the Toolhead module.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The hall signal for detecting the extruder switching angle is abnormal, possibly due to internal communication failure in the Toolhead module.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE800000010004": [
+   {
+    "d": "The Toolhead Lifting Motor position hall sensor is short-circuited; please check if the hall sensor is malfunctioning.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The hall sensor for detecting the extruder switching angle is short-circuited; please check if the hall sensor is malfunctioning.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE800000010005": [
+   {
+    "d": "The extruder's switching limit angle has drifted significantly. Please check if the flow blocker is jammed or if filament is stuck in the toolhead.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE800000010006": [
+   {
+    "d": "The TH board disconnected during the extruder switching process. Please check if the connecting cable is loose.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE800000020001": [
+   {
+    "d": "The lifting action is abnormal during the extruder switch. Please check whether the flow blocker is stuck or there is filament stuck in the toolhead.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE800000020002": [
+   {
+    "d": "The position of left hotend is abnormal during printing. Please check whether the flow blocker scratches the printed model.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "Extruder switching lever failed to hit the rod, possibly due to the XY motor losing step. Please check for any obstructions blocking the toolhead movement, such as a PTFE tube.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE810000010001": [
+   {
+    "d": "The extruder switching motor is working abnormally. Please check whether the connecting cable is loose.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE810000010002": [
+   {
+    "d": "The position hall sensor of the Extruder Switching Motor has an open circuit. Please check whether the connecting cable is loose.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE810000010003": [
+   {
+    "d": "The hall signal of the Extruder Switching Motor is abnormal, possibly due to internal communication failure in the Toolhead module.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE810000010004": [
+   {
+    "d": "The position hall sensor of the Extruder Switching Motor has a short circuit; please check if the Hall sensor is malfunctioning.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FE810000020001": [
+   {
+    "d": "The extruder switching action is abnormal. Please check whether there is something stuck in the toolhead.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FEA00000020001": [
+   {
+    "d": "Left nozzle cold pull timed out. Please click the retry button and then remove the filament.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FF200000020001": [
+   {
+    "d": "External filament has run out; please load a new filament.",
+    "m": [
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "api"
+   }
+  ],
+  "07FF200000020002": [
+   {
+    "d": "External filament is missing; please load a new filament.",
+    "m": [
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FF200000020004": [
+   {
+    "d": "Please pull out the filament on the spool holder from the extruder.",
+    "m": [
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FF200000020008": [
+   {
+    "d": "The Auxiliary Extruder failed to unload the filament, possibly due to slippage caused by worn filament. Please pull out the filament manually, cut off the worn section, and try again.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FF200000020009": [
+   {
+    "d": "Auxiliary extrusion filament feed failed. This can occur due to a clogged PTFE tube or worn filament causing the extruder to slip. Remove the filament, clean  PTFE tube, trim any damaged filament, then reload and retry extrusion.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FF450000020001": [
+   {
+    "d": "The filament cutter sensor is malfunctioning; please check whether the connector is properly plugged in.",
+    "m": [
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FF600000020001": [
+   {
+    "d": "External spool may be tangled or jammed.",
+    "m": [
+     "A2L",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FF700000020003": [
+   {
+    "d": "Please check if the filament is coming out of the nozzle. If not, gently push the material and try to extrude again.",
+    "m": [
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FF700000020009": [
+   {
+    "d": "If the filament cannot be extruded from the right extruder, it may be because the filament has not been properly loaded into the extruder, or the PTFE tube between the extruder and the toolhead is loose or disconnected.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "07FFA00000020001": [
+   {
+    "d": "The nozzle cold pull process has timed out. Please click \"Retry\" and then manually pull out the filament.",
+    "m": [
+     "A2L",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00010000010001": [
+   {
+    "d": "toolhead camera is offline. Please check the hardware connection.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "Micro Lidar camera is offline.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00010000010003": [
+   {
+    "d": "Micro Lidar Synchronization abnormal.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00010000010004": [
+   {
+    "d": "Toolhead Camera lens seems to be dirty. Please clean the lens.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "Micro Lidar Lens dirty.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00010000010005": [
+   {
+    "d": "Micro Lidar OTP parameter abnormal.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C0001000001000A": [
+   {
+    "d": "The Micro Lidar LED may be broken.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C0001000001000B": [
+   {
+    "d": "Failed to calibrate Micro Lidar. Please make sure the calibration chart is clean and not obscured. Then, run machine calibration again.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00010000010011": [
+   {
+    "d": "The Live View Camera calibration failed, please recalibrate. Ensure the build plate is removed, and the camera view is clear and properly oriented. Please contact customer support if repeated failures occur.",
+    "m": [
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C0001000001001C": [
+   {
+    "d": "Failed to calibrate Micro Lidar: the toolhead camera is mounted at too large an angle. Please refer to the Wiki to reinstall the toolhead camera, then run the mounting calibration again.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0C00010000020002": [
+   {
+    "d": "Micro Lidar camera is malfunctioning.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00010000020007": [
+   {
+    "d": "Micro Lidar laser parameter drifted.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00010000020008": [
+   {
+    "d": "Failed to get image from Live View Camera. Spaghetti and waste chute pileup detection is not available at this time.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00010000020014": [
+   {
+    "d": "The nozzle camera is abnormal. If this message appears over multiple prints, please contact customer support.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "translated"
+   }
+  ],
+  "0C00010000020017": [
+   {
+    "d": "Nozzle camera lens is dirty, which may affect the AI monitoring functionality. Please clean the surface of the nozzle camera lens as soon as possible.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00020000010001": [
+   {
+    "d": "Laser height probe is not lit. Please check if the laser is obstructed or if the connector cable is disconnected.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "The horizontal laser is not lit. Please check if it's covered or hardware connection has a problem.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00020000010005": [
+   {
+    "d": "A new micro lidar is detected.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00020000020002": [
+   {
+    "d": "Laser too thick",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00020000020003": [
+   {
+    "d": "Laser not bright enough.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00020000020004": [
+   {
+    "d": "Nozzle height seems too low.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00020000020006": [
+   {
+    "d": "Nozzle height seems too high.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00030000010009": [
+   {
+    "d": "First layer inspection module rebooted.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00030000020001": [
+   {
+    "d": "Filament exposure metering failed.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00030000020002": [
+   {
+    "d": "First layer inspection terminated due to abnormal lidar data.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00030000020004": [
+   {
+    "d": "First layer inspection not supported for current print job.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00030000020005": [
+   {
+    "d": "First layer inspection timeout.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C0003000002000C": [
+   {
+    "d": "HMS_ 0C00-0300-0002-000C: The build plate localization marker was not detected. Please check if the build plate is aligned correctly.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C0003000002000E": [
+   {
+    "d": "Your nozzle seems to be covered with jammed or clogged material.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00030000020011": [
+   {
+    "d": "HMS_ 0C00-0300-0002-0011: The high-precision nozzle offset calibration failed; please recalibrate.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00030000020012": [
+   {
+    "d": "Foreign object detection is not working. The Live View Camera needs calibration. Please tap \"Settings > Calibration\" on the printer screen.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00030000020013": [
+   {
+    "d": "Foreign object detection is not functioning. Please restart the device or update the firmware.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00030000020014": [
+   {
+    "d": "Foreign object detection accuracy has decreased. If this happens often, calibrate the live camera via Settings > Calibration. Remove any laser or cutting module before starting.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   },
+   {
+    "d": "Foreign object detection accuracy has decreased. If this occurs frequently, perform a Live View Camera calibration (“Settings” > “Calibration” on the printer screen).",
+    "m": [
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00030000020015": [
+   {
+    "d": "Foreign object detection is not working. Detected the Live View Camera has been replaced. Please tap \"Settings>Calibration\" on printer screen and re-calibrate the Live View Camera.",
+    "m": [
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00030000020017": [
+   {
+    "d": "Laser engraving Z-axis focus calibration failed. Please check if the Laser Test Material (350g paperboard) is properly placed and its surface is clean and intact.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00030000020018": [
+   {
+    "d": "Insufficient system memory detected, causing the foreign object detection function to fail. The issue can potentially be improved by restarting the printer after the task is completed or by upgrading to the latest firmware.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C0003000002001C": [
+   {
+    "d": "Your nozzle seems to be covered with jammed or clogged material.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00030000030006": [
+   {
+    "d": "Purged filament may have piled up in the waste chute. Please check and clean the chute.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00030000030007": [
+   {
+    "d": "Possible first layer defects.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00030000030008": [
+   {
+    "d": "Possible spaghetti defects were detected. Please check the print quality and decide if the job should be stopped.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C0003000003000B": [
+   {
+    "d": "Inspecting first layer.",
+    "m": [
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00030000030010": [
+   {
+    "d": "Your printer seems to be printing without extruding.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00040000010005": [
+   {
+    "d": "BirdsEye Camera malfunction: please contact customer support.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00040000020007": [
+   {
+    "d": "BirdsEye Camera is setting up. Please clear all objects and remove the mat. Make sure the marker is not obstructed.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00040000020017": [
+   {
+    "d": "No Visual Markers Detected in Print-Then-Cut. Please Reattach the Material in the Correct Position.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00040000020018": [
+   {
+    "d": "Blade offset calibration failed. Run cutting module offset calibration in the Toolbox. If the problem persists, check for blade tip wear.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00040000020019": [
+   {
+    "d": "The Birdseye Camera is installed offset. Please refer to the Wiki to reinstall it.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00040000020023": [
+   {
+    "d": "Thickness measurement failed, the Toolhead Camera was unable to detect the material surface.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "0C00040000020026": [
+   {
+    "d": "Liveview Camera initialization failed, and some AI functions such as Spaghetti Detection will be disabled. Please restart the printer. If the problem persists, please contact customer support.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1200100000010001": [
+   {
+    "d": "The AMS Lite A Slot 1 motor has slipped. The extrusion wheel may be malfunctioning, or the filament may be too thin.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1200100000020002": [
+   {
+    "d": "The AMS Lite A Slot 1 motor is overloaded. The filament may be tangled or stuck.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1200200000020003": [
+   {
+    "d": "AMS A Slot 1 filament may be stuck in the PTFE tube.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1200200000020004": [
+   {
+    "d": "AMS1 Slot1 filament may be broken in the tool head.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1200200000020005": [
+   {
+    "d": "AMS Lite A Slot 1 filament has run out, and purging the old filament went abnormally; please check to see if filament is stuck in the toolhead.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1200200000020006": [
+   {
+    "d": "Failed to extrude AMS Lite A Slot 1 filament; the extruder may be clogged or the filament may be too thin, causing the extruder to slip.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1200200000020009": [
+   {
+    "d": "Failed to extrude AMS Lite A slot 1 filament; the extruder may be clogged or the filament may be too thin, causing the extruder to slip.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1200450000020001": [
+   {
+    "d": "The filament cutter sensor is malfunctioning. Please check whether the connector is properly plugged in.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1200450000020003": [
+   {
+    "d": "The filament cutter handle has not been released. The handle or blade may be jammed, or there could be an issue with the filament sensor connection.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1200500000020001": [
+   {
+    "d": "AMS lite communication is abnormal; please check the AMS connection cable.",
+    "m": [
+     "A1",
+     "A1MINI"
+    ],
+    "s": "translated"
+   }
+  ],
+  "1200600000020001": [
+   {
+    "d": "AMS Lite A slot 1 filament may be tangled or stuck.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1200700000020002": [
+   {
+    "d": "Failed to feed the AMS Lite A slot 1 filament into the toolhead. Possible cause: filament or spool stuck.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1200700000020003": [
+   {
+    "d": "Failed to extrude the filament. Possible cause: extruder or nozzle clog.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1200700000020004": [
+   {
+    "d": "Failed to pull back the AMS Lite %1 slot %2 filament from the toolhead. Possible cause: filament or spool stuck.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1200800000020001": [
+   {
+    "d": "AMS1 Slot1 filament may be tangled or stuck.",
+    "m": [
+     "A1",
+     "A1MINI"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "12FF200000020004": [
+   {
+    "d": "Please pull out the filament on the spool holder from the extruder.",
+    "m": [
+     "A1",
+     "A1MINI"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "12FF200000020005": [
+   {
+    "d": "Filament may be broken in the tool head.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "12FF200000020007": [
+   {
+    "d": "Failed to check the filament location in the tool head, please click for more help.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "12FF600000020001": [
+   {
+    "d": "The filament on the spool holder may be tangled or stuck.",
+    "m": [
+     "A2L"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1800200000020026": [
+   {
+    "d": "AMS-HT A assist motor overloaded. Excessive resistance in the filament tube between the AMS and the filament track switch.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1800200000020027": [
+   {
+    "d": "AMS-HT A assist motor overloaded. Excessive resistance in the filament tube between the filament track switch and the filament buffer.",
+    "m": [
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1800240000010007": [
+   {
+    "d": "AMS-HT A door detection is abnormal, the Hall sensor connection may be loose or disconnected.",
+    "m": [
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1800240000020009": [
+   {
+    "d": "AMS-HT front cover is open. This may affect the drying performance or cause the filament to absorb moisture.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "A2L",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1800700000020007": [
+   {
+    "d": "AMS-HT filament ran out. Please put a new filament into the same slot in AMS and resume.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1800860000010004": [
+   {
+    "d": "AMS-HT A is not correctly bound to the filament track switch. Please run AMS setup again.",
+    "m": [
+     "H2C",
+     "X2D"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1800900000010004": [
+   {
+    "d": "The current sensor of AMS-HT A exhaust valve 1 is abnormal; please get in touch with customer support to replace the AMS-HT mainboard.",
+    "m": [
+     "A1",
+     "A1MINI",
+     "H2C",
+     "H2D",
+     "H2DPRO",
+     "H2S",
+     "P1P",
+     "P1S",
+     "P2S",
+     "X1",
+     "X1C",
+     "X1E"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1804700000020002": [
+   {
+    "d": "Failed to feed the filament into the toolhead. Possible cause: filament or spool stuck.",
+    "m": [
+     "A2L"
+    ],
+    "s": "api"
+   }
+  ],
+  "1A00010000020003": [
+   {
+    "d": "Hotend swap check failed: no hotend detected at slot %2",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00010000020004": [
+   {
+    "d": "Hotend Swap Check Failed: A Hotend is Already Installed at Slot 1.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00010000020020": [
+   {
+    "d": "Abnormal condition detected while nesting the hotend in slot 1: a hotend is already installed. Please remove the existing one before clicking “Continue.”",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00010000020021": [
+   {
+    "d": "Abnormal condition detected while nesting the hotend in slot 1: no hotend detected on the toolhead. Please mount the hotend onto the toolhead before clicking “Continue.”",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00010000020022": [
+   {
+    "d": "Abnormal condition detected while nesting the hotend in slot 1. Please ensure no hotend is mounted on the toolhead and that a hotend is present in slot 1 on the rack before clicking “Continue.”",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00010000020023": [
+   {
+    "d": "Abnormal condition detected while nesting the hotend in slot 1: the rack failed to detect the hotend on the toolhead. Please check whether there is any debris on the hotend heatsink surface or if the front magnet has fallen off.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00010000020024": [
+   {
+    "d": "Abnormal condition detected while nesting the hotend in slot 1: the rack failed to detach the hotend from the toolhead. Please make sure the locking lever is in the released position.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00010000020025": [
+   {
+    "d": "Abnormal condition detected while nesting Hotend in Slot 1: Hotend dropped. Check for excessive filament at the hotend top, trim residue, reinstall the hotend into Slot 1 of the rack, then click \"Continue.\"",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00010000020026": [
+   {
+    "d": "Abnormal condition detected while nesting the hotend in slot 1: rack movement is blocked. Please check for any foreign objects, remove them, and then click “Continue.”",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00010000020027": [
+   {
+    "d": "Abnormal condition detected while nesting the hotend in slot 1: toolhead recentering retry failed. Please manually move the toolhead to the center of the build plate and then click “Continue.”",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00010000020030": [
+   {
+    "d": "Abnormal condition detected while fetching the hotend from slot 1: no hotend found in this position. Please install a hotend in the corresponding slot before clicking “Continue.”",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00010000020031": [
+   {
+    "d": "Abnormal condition detected while fetching the hotend from slot 1: a hotend is already mounted on the toolhead. Please remove the hotend from the toolhead before clicking “Continue.”",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00010000020032": [
+   {
+    "d": "Error detected while fetching the hotend from slot 1: the toolhead failed to detect the hotend on the rack. Please check for any debris in the induction hotend mounting slot on the toolhead.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00010000020033": [
+   {
+    "d": "Error detected while fetching the hotend from slot 1: the rack failed to mount the hotend properly. Please check for excessive filament at the top of the hotend, debris in the contact area between the toolhead and the hotend",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00010000020034": [
+   {
+    "d": "Error detected while fetching the hotend from slot 1: the hotend has dropped. Please check for excessive filament or other debris at the top of the hotend, trim or remove, then reinstall the hotend into slot 1, click \"Continue\".",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00010000020035": [
+   {
+    "d": "Error detected while fetching the hotend from slot 1: rack movement is blocked. Please check for any foreign objects, remove them, and then click “Continue.”",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00010000020036": [
+   {
+    "d": "Error detected while fetching the hotend from slot 1: toolhead recentering retry failed. Please manually move the toolhead to the center of the build plate and then click “Continue.”",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00100000020001": [
+   {
+    "d": "Toolhead XY Axis or Hotend Rack Has Not Finished Homing. Hotend Replacement Cannot Proceed.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00110000020002": [
+   {
+    "d": "Hotend rack coarse homing failed. Please check for any obstructions.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00110000020003": [
+   {
+    "d": "Induction Hotend Rack Coarse Homing Failed Due to Excessive Travel. Please Check the Timing Belt Condition",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00120000020001": [
+   {
+    "d": "Hotend rack calibration failed: camera calibration data is abnormal. Please clean nozzle residue, check whether the heatbed thermal paper is intact, and remove any debris from its surface.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00120000020002": [
+   {
+    "d": "Hotend rack calibration failed. Marker feature not detected. Please check if the visual marker on the rack is damaged or obscured by dirt.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00120000020003": [
+   {
+    "d": "Induction Hotend Rack calibration failed: result exceeded travel range. Please check if the rack structure is deformed.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00120000020004": [
+   {
+    "d": "Hotend rack height calibration is abnormal. Please check for any foreign objects that may be causing the rack to jam",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00120000020007": [
+   {
+    "d": "The hotend rack motion timed out. Please check for any foreign objects or obstructions that may be causing the rack to jam.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00120000020008": [
+   {
+    "d": "The hotend rack tool lock rod position is abnormal. Please check for any foreign objects or obstructions that may be causing the lock rod to jam.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00120000020009": [
+   {
+    "d": "The Induction Hotend Latch or the hotend rack latch release assembly is abnormal. Please refer to the Wiki to check it.",
+    "m": [
+     "H2C"
+    ],
+    "s": "translated"
+   }
+  ],
+  "1A00120000020010": [
+   {
+    "d": "The Induction Hotend Rack has not been set up. Please follow the instructions to complete the setup before using its functions.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00120000020011": [
+   {
+    "d": "Induction hotend not detected before locking. Please check its installation on the toolhead.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00130000020001": [
+   {
+    "d": "The hotend rack is fully occupied. Please remove at least one hotend before proceeding.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00200000020001": [
+   {
+    "d": "Power outage occurred during hotend replacement. Please follow the Wiki guide to restore the setup, otherwise printing may fail.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00210000010001": [
+   {
+    "d": "Power loss occurred while docking the hotend to the hotend rack. Please reinstall the hotend from position %2 to the toolhead, and move the toolhead to the center of the heatbed to avoid interference with the rack.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00210000010002": [
+   {
+    "d": "Power loss occurred while docking the hotend to the hotend rack. Please reinstall the hotend from position %2 to the toolhead, and move the toolhead to the center of the heatbed to avoid interference with the rack.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00210000020001": [
+   {
+    "d": "Power outage occurred while fetching the hotend from the rack. Please return the hotend to rack station %2 and move the toolhead to the center of the build plate to avoid interference with the hotend rack.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00210000020002": [
+   {
+    "d": "Power loss occurred while picking up or placing the hotend. First check whether the hotend is installed on the toolhead. If it is not, remove the hotend from rack position 1, reinstall it on the toolhead, and move the toolhead to the center of the heatbed.",
+    "m": [
+     "H2C"
+    ],
+    "s": "translated"
+   }
+  ],
+  "1A00300000010040": [
+   {
+    "d": "The toolhead induction hotend presence detection sensor is open-circuit. Please reconnect the sensor cable or replace the sensor.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00300000010041": [
+   {
+    "d": "The toolhead induction hotend presence detection sensor is short-circuit. Please reconnect the sensor cable or replace the sensor.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00E00000010005": [
+   {
+    "d": "The Induction Hotend Rack was blocked by a foreign object during the homing process. Please clear any obstructions along the Rack’s movement path.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ],
+  "1A00E00000010006": [
+   {
+    "d": "The Induction Hotend Rack homing travel is too long, which may be caused by a loose timing belt. Please inspect and tighten the timing belt.",
+    "m": [
+     "H2C"
+    ],
+    "s": "wiki"
+   }
+  ]
+ }
+}

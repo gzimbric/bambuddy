@@ -22,6 +22,7 @@ from datetime import datetime, timezone
 import paho.mqtt.client as mqtt
 
 from backend.app.services.hms_actions import HMSAction, get_actions_for_error_code
+from backend.app.services.hms_codes import get_hms_description
 
 logger = logging.getLogger(__name__)
 
@@ -3759,8 +3760,13 @@ class BambuMQTTClient:
                             attr = int(attr.replace("0x", ""), 16) if attr else 0
                         if isinstance(code, str):
                             code = int(code.replace("0x", ""), 16) if code else 0
-                        # Severity is in attr byte 1 (bits 8-15)
-                        severity = (attr >> 8) & 0xF
+                        # Severity is the high half of `code`, per Bambu's HMS
+                        # encoding (1=fatal, 2=serious, 3=common, 4=info). Reading
+                        # it from attr bits 8-15 picked up the *part id* instead,
+                        # which is unbounded: a P2S latching 0500_0600_0002_0070
+                        # yielded severity 6, outside the documented 1-4 range, so
+                        # the modal fell through to its default styling.
+                        severity = (code >> 16) & 0xFFFF
                         # Module is in attr byte 3 (bits 24-31)
                         module = (attr >> 24) & 0xFF
                         # Skip non-error status codes — all real HMS errors
@@ -3785,12 +3791,18 @@ class BambuMQTTClient:
                         actions = get_actions_for_error_code(self.serial_number[:3], full_code)
                         if not actions:
                             actions = get_actions_for_error_code(self.serial_number[:3], short_code.replace("_", ""))
+                        # `hms[]` codes live in a different family from the 8-hex
+                        # `print_error` codes that HMS_ERROR_DESCRIPTIONS is keyed
+                        # by, and the two sets are disjoint by construction, so the
+                        # short code is not worth trying as a fallback here.
+                        message = get_hms_description(full_code, self.model) or ""
                         self.state.hms_errors.append(
                             HMSError(
                                 code=f"0x{code:x}" if code else "0x0",
                                 attr=attr,
                                 module=module,
                                 severity=severity if severity > 0 else 2,
+                                message=message,
                                 actions=actions,
                                 job_id=self.state.subtask_id,
                                 full_code=full_code,
