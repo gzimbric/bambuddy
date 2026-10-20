@@ -243,9 +243,9 @@ export function MseCameraVideo({
       video.load();
     };
     // token/printerId changes rebuild the socket; callbacks are refs in practice.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     // reconnectNonce is a deliberate dependency: bumping it tears down and
     // rebuilds the MediaSource after a stall.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [printerId, token, reconnectNonce]);
 
   if (failed) return null;
