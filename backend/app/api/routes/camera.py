@@ -2276,10 +2276,9 @@ async def generate_mse_fmp4_stream(
             pass
         if process is not None:
             await _terminate_ffmpeg(process)
-        try:
-            proxy_server.close()
-        except Exception:
-            pass
+        # Same as the MJPEG path: close_tls_proxy also cancels the connection
+        # handlers, which a bare server.close() leaves running (#3001).
+        await close_tls_proxy(proxy_server)
 
 
 @router.websocket("/{printer_id}/camera/mse")
